@@ -1,15 +1,19 @@
 {
-  "name": "react-mapbox",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "umi dev",
+    "build": "umi build"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "@umijs/preset-react": "1.x",
+    "@umijs/test": "^3.1.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "umi": "^3.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "antd": "^4.1.3"
   }
 }
