@@ -1,5 +1,4 @@
 import React, { useReducer, PropsWithChildren } from 'react'
-import { MapMouseEvent } from 'mapbox-gl'
 
 export type MapAction = 'remove' | 'load'
 export type MapState = mapboxgl.Map | null
