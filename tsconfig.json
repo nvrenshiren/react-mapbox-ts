@@ -9,11 +9,13 @@
     "sourceMap": true,
     "baseUrl": "./",
     "strict": true,
+
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
       "react-mapbox-ts": ["react-mapbox-ts/src/index"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true
   }
 }
