@@ -1,9 +1,10 @@
 import React from 'react'
-import styles from './index.less'
+import Map from 'react-mapbox-ts'
+
 export default () => {
   return (
-    <div>
-      <h1>Page index</h1>
-    </div>
+    <Map>
+      <div>1</div>
+    </Map>
   )
 }
