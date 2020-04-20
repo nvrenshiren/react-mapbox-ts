@@ -1,9 +1,10 @@
 import { defineConfig } from 'umi'
 
-
-
 export default defineConfig({
-  nodeModulesTransform: {
-    type: 'none',
+  alias: {
+    'react-mapbox-ts': '@/../react-mapbox-ts/src/index'
   },
+  nodeModulesTransform: {
+    type: 'none'
+  }
 })
