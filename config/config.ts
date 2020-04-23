@@ -4,7 +4,11 @@ export default defineConfig({
   alias: {
     'react-mapbox-ts': '@/../react-mapbox-ts/src/index'
   },
-  nodeModulesTransform: {
-    type: 'none'
-  }
+  exportStatic: {
+    htmlSuffix: true,
+    dynamicRoot: true
+  },
+  hash: true,
+  ignoreMomentLocale: true,
+  inlineLimit: 10000
 })

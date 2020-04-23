@@ -7,6 +7,8 @@
   "dependencies": {
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.1.1",
+    "antd": "^4.1.3",
+    "mapbox-gl": "^1.9.1",
     "raw.macro": "^0.3.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -15,8 +17,9 @@
     "umi": "^3.1.1"
   },
   "devDependencies": {
+    "@types/mapbox-gl": "^1.9.0",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
-    "antd": "^4.1.3"
+    "typescript": "^3.8.3"
   }
 }
