@@ -8,9 +8,7 @@ const { Item } = Menu
 const { Header, Footer, Content } = Layout
 const { Title } = Typography
 const IndexLayout: React.FC = (props) => {
-  const [current, setCurrent] = useState(
-    location.pathname.split('/')[1] || 'docs'
-  )
+  const [current, setCurrent] = useState(location.pathname.split('/')[1] || '')
   const clickItem = useCallback((param: ClickParam) => {
     setCurrent(param.key)
     history.push(`/${param.key}`)
@@ -21,13 +19,13 @@ const IndexLayout: React.FC = (props) => {
         <Title type="secondary">MapBox</Title>
         <div className="menu">
           <Menu mode="horizontal" onClick={clickItem} selectedKeys={[current]}>
-            <Item key="docs">
+            <Item key="docs.html">
               <BarsOutlined />
               文档
             </Item>
-            <Item key="components">
+            <Item key="demos.html">
               <AppstoreOutlined />
-              组件
+              演示
             </Item>
           </Menu>
         </div>

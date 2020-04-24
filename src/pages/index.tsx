@@ -1,14 +1,19 @@
 import React from 'react'
-import Map, { Feature } from 'react-mapbox-ts'
-
-export default () => {
+import raw from 'raw.macro'
+import LiveCode from '@/utils/live.code'
+import './index.less'
+import IndexPageDemo from '@/demos/index.page.demo'
+const IndexPage: React.FC = () => {
   return (
-    <Map
-      accessToken="pk.eyJ1IjoiMTg2MjcwMjE1NDMiLCJhIjoiY2s4dHh3dnJ6MDBlMDNmb2l2bDQ4aDF1YSJ9.f6-80XxhwYLNJRDdntMF2w"
-      style="mapbox://styles/mapbox/streets-v11"
-      renderChildrenInPortal
-    >
-      <Feature></Feature>
-    </Map>
+    <div id="IndexPage">
+      <LiveCode
+        code={raw('../demos/raws/index.page.demo.raw')}
+        disabled
+        noInline={false}
+        preview={<IndexPageDemo />}
+      />
+    </div>
   )
 }
+
+export default IndexPage

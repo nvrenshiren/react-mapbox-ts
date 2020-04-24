@@ -14,5 +14,6 @@
     },
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true
-  }
+  },
+  "include": ["src", "types", "./typings.d.ts"]
 }

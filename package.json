@@ -1,8 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "start": "umi dev",
-    "build": "umi build"
+    "start": "npm run raw-build && umi dev",
+    "build": "npm run raw-build && umi build",
+    "raw-build": "node ./scripts/raws.js"
   },
   "dependencies": {
     "@umijs/preset-react": "1.x",
