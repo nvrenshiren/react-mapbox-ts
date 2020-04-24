@@ -1,0 +1,24 @@
+#IndexLayout {
+  .head {
+    display: flex;
+    background-color: transparent;
+    justify-content: space-between;
+    h1 {
+      margin: 0;
+    }
+    .menu {
+      flex-grow: 1;
+      display: flex;
+      justify-content: flex-end;
+      .ant-menu-item {
+        border-bottom: none;
+        border-top: 2px solid transparent;
+      }
+      .ant-menu-item-selected,
+      .ant-menu-item-active {
+        border-bottom: none;
+        border-top: 2px solid #1890ff;
+      }
+    }
+  }
+}
