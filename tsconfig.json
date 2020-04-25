@@ -13,7 +13,13 @@
       "react-mapbox-ts": ["react-mapbox-ts/src/index"]
     },
     "allowSyntheticDefaultImports": true,
-    "isolatedModules": true
-  },
-  "include": ["src", "types", "./typings.d.ts"]
+    "isolatedModules": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": false,
+    "removeComments": true,
+    "suppressImplicitAnyIndexErrors": true
+  }
 }

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { Map } from '../../react-mapbox-ts/src/index'
 const IndexPageDemo: React.FC = () => {
   return (

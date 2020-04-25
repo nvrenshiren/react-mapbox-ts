@@ -1,4 +1,4 @@
-import { BarsOutlined, AppstoreOutlined } from '@ant-design/icons'
+import { BarsOutlined, AppstoreOutlined, HomeOutlined } from '@ant-design/icons'
 import { Layout, Menu, Typography } from 'antd'
 import './index.less'
 import React, { useCallback, useState } from 'react'
@@ -19,6 +19,10 @@ const IndexLayout: React.FC = (props) => {
         <Title type="secondary">MapBox</Title>
         <div className="menu">
           <Menu mode="horizontal" onClick={clickItem} selectedKeys={[current]}>
+            <Item key="index.html">
+              <HomeOutlined />
+              首页
+            </Item>
             <Item key="docs.html">
               <BarsOutlined />
               文档

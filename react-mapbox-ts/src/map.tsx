@@ -1,5 +1,5 @@
 import mapboxgl, { AnimationOptions, FlyToOptions } from 'mapbox-gl'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { MapContext } from './components/context'
 import { createPortal } from 'react-dom'
 
@@ -51,36 +51,36 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
     ...mapboxOpts
   } = props
 
-  useEffect(() => {
-    if (!isMounted.current) {
-      if (injectCSS) {
-        require('mapbox-gl/dist/mapbox-gl.css')
-      }
-      if (baseapiurl) {
-        ;(mapboxgl as any).baseApiUrl = baseapiurl
-      }
-      if (workercount) {
-        ;(mapboxgl as any).workercount = workercount
-      }
-      if (maxparallelimagerequests) {
-        ;(mapboxgl as any).maxParallelImageRequests = maxparallelimagerequests
-      }
-      if (setRTLTextPlugin) {
-        mapboxgl.setRTLTextPlugin(
-          setRTLTextPlugin,
-          (error) => {
-            throw error
-          },
-          true
-        )
-      }
-      isMounted.current = true
-    } else {
-      prevProps.current = { ...props }
+  const DidUpdate = useCallback((prevProps: Props) => {
+    if (map) {
+      const center = map.getCenter()
+      const zoom = map.getZoom()
+      const bearing = map.getBearing()
+      const pitch = map.getPitch()
     }
-  })
-
-  useEffect(() => {
+  }, [])
+  const initMap = useCallback(() => {
+    if (injectCSS) {
+      require('mapbox-gl/dist/mapbox-gl.css')
+    }
+    if (baseapiurl) {
+      ;(mapboxgl as any).baseApiUrl = baseapiurl
+    }
+    if (workercount) {
+      ;(mapboxgl as any).workercount = workercount
+    }
+    if (maxparallelimagerequests) {
+      ;(mapboxgl as any).maxParallelImageRequests = maxparallelimagerequests
+    }
+    if (setRTLTextPlugin) {
+      mapboxgl.setRTLTextPlugin(
+        setRTLTextPlugin,
+        (error) => {
+          throw error
+        },
+        true
+      )
+    }
     let map = new mapboxgl.Map({
       ...mapboxOpts,
       container: divRef.current!,
@@ -91,9 +91,19 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
           ]
         : mapboxOpts.center
     })
+    !!ref && (typeof ref === 'function' ? ref(map) : (ref.current = map))
     setMap(map)
-    typeof ref === 'function' && ref(map)
   }, [])
+  useEffect(() => {
+    if (!isMounted.current) {
+      initMap()
+      isMounted.current = true
+    } else {
+      DidUpdate(prevProps.current)
+      prevProps.current = { ...props }
+    }
+  })
+  useEffect(() => {}, [])
   const container =
     renderChildrenInPortal &&
     map &&
