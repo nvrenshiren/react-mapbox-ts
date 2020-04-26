@@ -40,9 +40,9 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
   const [map, setMap] = useState<mapboxgl.Map | null>(null)
   const divRef = useRef<HTMLDivElement>(document.createElement('div'))
   const eventRef = useRef<Listeners>({})
-  const prevProps = useRef<Props>({ ...props })
-  const currentProps = useRef<Props>({ ...props })
-  currentProps.current = props
+  const prevPropsRef = useRef<Props>({ ...props })
+  const currentPropsRef = useRef<Props>({ ...props })
+  currentPropsRef.current = props
   const {
     baseapiurl,
     workercount,
@@ -59,102 +59,84 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
     children,
     ...mapboxOpts
   } = props
-  const didCenterUpdate = useMemo(() => {
-    if (!props.center || prevProps.current.center === props.center) {
-      return false
-    } else {
-      const center = map?.getCenter() || {
+
+  const DidUpdate = useCallback(() => {
+    if (map) {
+      const currentProps = currentPropsRef.current
+      const prevProps = prevPropsRef.current
+      eventRef.current = updateMapEvents(eventRef.current, currentProps, map)
+      const center = map.getCenter() || {
         lng: 0,
         lat: 0
       }
-      if (Array.isArray(props.center)) {
-        return (
-          (props.center && props.center[0]) !== center.lng ||
-          (props.center && props.center[1]) !== center.lat
-        )
-      } else {
-        if ('lon' in props.center) {
-          return (
-            props.center?.lon !== center.lng || props.center.lat !== center.lat
-          )
-        } else {
-          return (
-            props.center?.lat !== center.lng || props.center.lat !== center.lat
-          )
+      const didZoomUpdate =
+        prevProps.zoom !== currentProps.zoom &&
+        currentProps.zoom !== map.getZoom()
+      const didBearingUpdate =
+        prevProps.bearing !== currentProps.bearing &&
+        currentProps.bearing !== map.getBearing()
+      const didPitchUpdate =
+        prevProps.pitch !== currentProps.pitch &&
+        currentProps.pitch !== map.getPitch()
+      const didCenterUpdate =
+        !currentProps.center || prevProps.center === currentProps.center
+          ? false
+          : Array.isArray(currentProps.center)
+          ? (currentProps.center && currentProps.center[0]) !== center.lng ||
+            (currentProps.center && currentProps.center[1]) !== center.lat
+          : 'lon' in currentProps.center
+          ? currentProps.center?.lon !== center.lng ||
+            currentProps.center.lat !== center.lat
+          : currentProps.center?.lat !== center.lng ||
+            currentProps.center.lat !== center.lat
+
+      if (currentProps.maxBounds) {
+        const didMaxBoundsUpdate =
+          prevProps.maxBounds !== currentProps.maxBounds
+        if (didMaxBoundsUpdate) {
+          map.setMaxBounds(currentProps.maxBounds)
         }
       }
-    }
-  }, [props.center])
-  const didZoomUpdate = useMemo(
-    () =>
-      prevProps.current.zoom !== props.zoom && props.zoom !== map?.getZoom(),
-    [props.zoom]
-  )
-  const didBearingUpdate = useMemo(
-    () =>
-      prevProps.current.bearing !== props.bearing &&
-      props.bearing !== map?.getBearing(),
-    [props.bearing]
-  )
-  const didPitchUpdate = useMemo(
-    () =>
-      prevProps.current.pitch !== props.pitch &&
-      props.pitch !== map?.getPitch(),
-    [props.pitch]
-  )
-
-  const DidUpdate = useCallback(
-    (prevProps: Props) => {
-      if (map) {
-        eventRef.current = updateMapEvents(eventRef.current, props, map)
-        if (props.maxBounds) {
-          const didMaxBoundsUpdate = prevProps.maxBounds !== props.maxBounds
-          if (didMaxBoundsUpdate) {
-            map.setMaxBounds(props.maxBounds)
-          }
-        }
-        if (props.fitBounds) {
-          const { fitBounds } = prevProps
-          const didFitBoundsUpdate =
-            fitBounds !== props.fitBounds ||
-            props.fitBounds.length !== (fitBounds && fitBounds.length) ||
-            !!fitBounds.filter((c, i) => {
-              const nc = props.fitBounds && props.fitBounds[i]
-              return c[0] !== (nc && nc[0]) || c[1] !== (nc && nc[1])
-            })[0]
-          if (
-            didFitBoundsUpdate ||
-            !equal(prevProps.fitBoundsOptions, props.fitBoundsOptions)
-          ) {
-            map.fitBounds(props.fitBounds, props.fitBoundsOptions, {
-              fitboundUpdate: true
-            })
-          }
-        }
+      if (currentProps.fitBounds) {
+        const { fitBounds } = prevProps
+        const didFitBoundsUpdate =
+          fitBounds !== currentProps.fitBounds ||
+          currentProps.fitBounds.length !== (fitBounds && fitBounds.length) ||
+          !!fitBounds.filter((c, i) => {
+            const nc = currentProps.fitBounds && currentProps.fitBounds[i]
+            return c[0] !== (nc && nc[0]) || c[1] !== (nc && nc[1])
+          })[0]
         if (
-          didZoomUpdate ||
-          didCenterUpdate ||
-          didBearingUpdate ||
-          didPitchUpdate
+          didFitBoundsUpdate ||
+          !equal(prevProps.fitBoundsOptions, currentProps.fitBoundsOptions)
         ) {
-          const movingMethod = props.movingMethod || 'flyTo'
-          map[movingMethod]({
-            ...animationOptions,
-            ...flyToOptions,
-            zoom: (didZoomUpdate && props.zoom) || map.getZoom(),
-            center: (didCenterUpdate && props.center) || map.getCenter(),
-            bearing: (didBearingUpdate && props.bearing) || map.getBearing(),
-            pitch: (didPitchUpdate && props.pitch) || map.getPitch()
+          map.fitBounds(currentProps.fitBounds, currentProps.fitBoundsOptions, {
+            fitboundUpdate: true
           })
         }
-        if (!!props.style && !equal(prevProps.style, props.style)) {
-          console.log(123)
-          map.setStyle(props.style)
-        }
       }
-    },
-    [props, map]
-  )
+      if (
+        didZoomUpdate ||
+        didCenterUpdate ||
+        didBearingUpdate ||
+        didPitchUpdate
+      ) {
+        const movingMethod = currentProps.movingMethod || 'flyTo'
+        map[movingMethod]({
+          ...animationOptions,
+          ...flyToOptions,
+          zoom: (didZoomUpdate && currentProps.zoom) || map.getZoom(),
+          center: (didCenterUpdate && currentProps.center) || map.getCenter(),
+          bearing:
+            (didBearingUpdate && currentProps.bearing) || map.getBearing(),
+          pitch: (didPitchUpdate && currentProps.pitch) || map.getPitch()
+        })
+      }
+      if (!!currentProps.style && !equal(prevProps.style, currentProps.style)) {
+        map.setStyle(currentProps.style)
+      }
+    }
+  }, [map])
   const initMap = useCallback(() => {
     if (injectCSS) {
       require('mapbox-gl/dist/mapbox-gl.css')
@@ -195,16 +177,21 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
     })
     eventRef.current = addMapEvents(eventsMap, props, map)
   }, [])
-
   useEffect(() => {
     if (!isMounted.current) {
       initMap()
       isMounted.current = true
     } else {
-      DidUpdate(prevProps.current)
-      prevProps.current = { ...props }
+      DidUpdate()
+      prevPropsRef.current = { ...props }
     }
   })
+  useEffect(() => {
+    return () => {
+      isMounted.current = false
+      map && map.remove()
+    }
+  }, [])
   const container =
     renderChildrenInPortal &&
     map &&

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import './live.code.less'
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live'
 import { Row, Col } from 'antd'
+import { EyeTwoTone, EyeInvisibleTwoTone } from '@ant-design/icons'
 
 interface Props {
   code: string
@@ -13,10 +14,14 @@ interface Props {
 
 const LiveCode: React.FC<Props> = (props) => {
   const { code, scope, disabled, preview, noInline = true } = props
+  const [viewCode, setViewCode] = useState(true)
+  const viewClick = useCallback(() => {
+    setViewCode(!viewCode)
+  }, [viewCode])
   return (
     <LiveProvider
       code={code}
-      noInline={noInline}
+      noInline={preview ? false : noInline}
       scope={scope}
       language="typescript"
       theme={{
@@ -102,10 +107,20 @@ const LiveCode: React.FC<Props> = (props) => {
       <Row id="LiveCode" justify="space-between">
         <Col className="codebox">
           <Row className="wrap">
-            <Col xs={24} lg={12} className="editor">
-              <LiveEditor disabled={!!disabled || !!preview} />
+            <Col
+              xs={viewCode ? 24 : 1}
+              lg={viewCode ? 12 : 1}
+              className="editor"
+            >
+              <div className="viewcode" onClick={viewClick}>
+                {viewCode ? <EyeInvisibleTwoTone /> : <EyeTwoTone />}
+              </div>
+              <LiveEditor
+                disabled={!!disabled || !!preview}
+                style={{ display: viewCode ? 'block' : 'none' }}
+              />
             </Col>
-            <Col className="preview" xs={24} lg={12}>
+            <Col className="preview" xs={24} lg={viewCode ? 12 : 23}>
               {preview || <LivePreview />}
             </Col>
           </Row>

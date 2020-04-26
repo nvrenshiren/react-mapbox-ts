@@ -28,7 +28,7 @@ const menuList: { [key: string]: MenuItem } = {
         name: '更改样式',
         key: 'changeStyle',
         code: raw('../demos/raws/demos.style.changeStyle.raw'),
-        des: 'Display a map'
+        des: 'Switch to another map style'
       }
     ]
   },

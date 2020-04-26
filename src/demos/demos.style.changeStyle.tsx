@@ -2,9 +2,8 @@ import { Map } from '../../react-mapbox-ts/src/index'
 import { Radio } from 'antd'
 import React, { useCallback, useState, useMemo } from 'react'
 import { RadioChangeEvent } from 'antd/lib/radio'
-
+const defaultValue = 'streets-v11'
 export default () => {
-  const defaultValue = useMemo(() => 'streets-v11', [])
   const [style, setStyle] = useState(defaultValue)
   const StyleChange = useCallback((e: RadioChangeEvent) => {
     setStyle(e.target.value)
@@ -14,6 +13,7 @@ export default () => {
       <Map
         accessToken="pk.eyJ1IjoiMTg2MjcwMjE1NDMiLCJhIjoiY2s4dHh3dnJ6MDBlMDNmb2l2bDQ4aDF1YSJ9.f6-80XxhwYLNJRDdntMF2w"
         style={`mapbox://styles/mapbox/${style}`}
+        renderChildrenInPortal
       />
       <div style={{ position: 'absolute', top: 8 }}>
         <Radio.Group
