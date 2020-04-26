@@ -65,12 +65,7 @@ const DemosPage: React.FC = (props) => {
         className="menu-side"
         width={inlineCollapsed ? 0 : 300}
       >
-        <Menu
-          inlineCollapsed={inlineCollapsed}
-          mode="inline"
-          selectedKeys={[key]}
-          onClick={MenuClick}
-        >
+        <Menu mode="inline" selectedKeys={[key]} onClick={MenuClick}>
           {Object.keys(menuList).map((name) => {
             const menu = menuList[name]
             return (
