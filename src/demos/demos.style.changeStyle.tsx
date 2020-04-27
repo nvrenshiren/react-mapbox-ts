@@ -1,6 +1,6 @@
 import { Map } from '../../react-mapbox-ts/src/index'
 import { Radio } from 'antd'
-import React, { useCallback, useState, useMemo } from 'react'
+import React, { useCallback, useState } from 'react'
 import { RadioChangeEvent } from 'antd/lib/radio'
 const defaultValue = 'streets-v11'
 export default () => {

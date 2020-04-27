@@ -135,6 +135,9 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
       if (!!currentProps.style && !equal(prevProps.style, currentProps.style)) {
         map.setStyle(currentProps.style)
       }
+      if (prevProps.renderWorldCopies !== currentProps.renderWorldCopies) {
+        map.setRenderWorldCopies(currentProps.renderWorldCopies)
+      }
     }
   }, [map])
   const initMap = useCallback(() => {

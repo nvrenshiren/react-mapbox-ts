@@ -29,6 +29,13 @@ const menuList: { [key: string]: MenuItem } = {
         key: 'changeStyle',
         code: raw('../demos/raws/demos.style.changeStyle.raw'),
         des: 'Switch to another map style'
+      },
+      {
+        name: '渲染世界副本',
+        key: 'worldCopies',
+        code: raw('../demos/raws/demos.style.worldCopies.raw'),
+        des:
+          'Toggle between rendering a single world and multiple copies of the world.'
       }
     ]
   },
