@@ -1,17 +1,13 @@
-import Icon, {
-  BarsOutlined,
-  AppstoreOutlined,
-  HomeOutlined
-} from '@ant-design/icons'
-import { Layout, Menu, Typography, Row, Col } from 'antd'
-import './index.less'
-import { ReactSVG } from 'react-svg'
+import { AppstoreOutlined, BarsOutlined, HomeOutlined } from '@ant-design/icons'
 import React, { useCallback, useState } from 'react'
-import { history } from 'umi'
 import { ClickParam } from 'antd/lib/menu'
+import { Col, Layout, Menu, Row, Typography } from 'antd'
+import { history } from 'umi'
+import { ReactSVG } from 'react-svg'
+import './index.less'
 const { Item } = Menu
-const { Header, Footer, Content } = Layout
-const { Title, Text } = Typography
+const { Header, Content } = Layout
+const { Text } = Typography
 const IndexLayout: React.FC = (props) => {
   const [current, setCurrent] = useState(location.pathname.split('/')[1] || '')
   const clickItem = useCallback((param: ClickParam) => {
