@@ -13,6 +13,7 @@ export default defineConfig({
   inlineLimit: 10000,
   extraBabelPlugins: ['babel-plugin-macros'],
   dynamicImport: {},
+
   chainWebpack: (memo) => {
     memo.module
       .rule('no-use-base64')
@@ -22,5 +23,7 @@ export default defineConfig({
       .options({
         name: 'static/[name]-[hash:8].[ext]'
       })
+
+
   }
 })

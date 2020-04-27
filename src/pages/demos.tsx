@@ -1,5 +1,6 @@
 import LiveCode from '@/utils/live.code'
-import { Layout, Menu, PageHeader, Typography } from 'antd'
+import { Layout, Menu, PageHeader, Typography, Button } from 'antd'
+import { CodeOutlined } from '@ant-design/icons'
 import { ClickParam } from 'antd/lib/menu'
 import raw from 'raw.macro'
 import React, { useCallback, useMemo, useState } from 'react'
@@ -45,9 +46,10 @@ const menuList: { [key: string]: MenuItem } = {
   }
 }
 
-const DemosPage: React.FC = (props) => {
+const DemosPage: React.FC = () => {
   const [key, setKey] = useState('style-map')
   const [inlineCollapsed, setInlineCollapsed] = useState(false)
+  const [viewCode, setViewCode] = useState(false)
   const [group, name] = useMemo(() => key.split('-'), [key])
   const menuItem = useMemo(
     () => menuList[group].items.find((item) => item.key === name),
@@ -60,10 +62,14 @@ const DemosPage: React.FC = (props) => {
   }, [key])
   const MenuClick = useCallback((param: ClickParam) => {
     setKey(param.key)
+    setViewCode(false)
   }, [])
   const inlineClick = useCallback(() => {
     setInlineCollapsed(!inlineCollapsed)
   }, [inlineCollapsed])
+  const viewCodeClick = useCallback(() => {
+    setViewCode(!viewCode)
+  }, [viewCode])
   const PreviewComponent = useMemo(() => dynamicComponent(), [key])
   return (
     <Layout id="DemosPage">
@@ -95,9 +101,22 @@ const DemosPage: React.FC = (props) => {
             onBack={inlineClick}
             title={menuItem.name}
             subTitle={menuItem.des}
+            extra={
+              <Button
+                type="link"
+                icon={<CodeOutlined />}
+                onClick={viewCodeClick}
+              >
+                {viewCode ? '隐藏' : '显示'}代码
+              </Button>
+            }
           />
           <div className="demos-live">
-            <LiveCode code={menuItem.code} preview={<PreviewComponent />} />
+            <LiveCode
+              viewCode={viewCode}
+              code={menuItem.code}
+              preview={<PreviewComponent />}
+            />
           </div>
         </div>
       </Content>

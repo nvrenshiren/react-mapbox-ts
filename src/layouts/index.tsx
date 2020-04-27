@@ -1,12 +1,17 @@
-import { BarsOutlined, AppstoreOutlined, HomeOutlined } from '@ant-design/icons'
-import { Layout, Menu, Typography } from 'antd'
+import Icon, {
+  BarsOutlined,
+  AppstoreOutlined,
+  HomeOutlined
+} from '@ant-design/icons'
+import { Layout, Menu, Typography, Row, Col } from 'antd'
 import './index.less'
+import { ReactSVG } from 'react-svg'
 import React, { useCallback, useState } from 'react'
 import { history } from 'umi'
 import { ClickParam } from 'antd/lib/menu'
 const { Item } = Menu
 const { Header, Footer, Content } = Layout
-const { Title } = Typography
+const { Title, Text } = Typography
 const IndexLayout: React.FC = (props) => {
   const [current, setCurrent] = useState(location.pathname.split('/')[1] || '')
   const clickItem = useCallback((param: ClickParam) => {
@@ -16,7 +21,17 @@ const IndexLayout: React.FC = (props) => {
   return (
     <Layout id="IndexLayout" className="full">
       <Header className="head">
-        <Title type="secondary">MapBox</Title>
+        <Row align="middle" gutter={8}>
+          <Col>
+            <ReactSVG
+              className="map-box-svg"
+              src={require('@/assets/map-box.svg')}
+            />
+          </Col>
+          <Col>
+            <Text code>React typescript</Text>
+          </Col>
+        </Row>
         <div className="menu">
           <Menu mode="horizontal" onClick={clickItem} selectedKeys={[current]}>
             <Item key="index.html">
@@ -35,7 +50,6 @@ const IndexLayout: React.FC = (props) => {
         </div>
       </Header>
       <Content>{props.children}</Content>
-      <Footer>Footer</Footer>
     </Layout>
   )
 }
