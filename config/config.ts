@@ -2,7 +2,7 @@ import { defineConfig } from 'umi'
 
 export default defineConfig({
   alias: {
-    'react-mapbox-ts': '@/../react-mapbox-ts/src/index'
+    // 'react-mapbox-ts': '@/../react-mapbox-ts/lib/index'
   },
   exportStatic: {
     htmlSuffix: true,

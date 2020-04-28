@@ -3,12 +3,13 @@ import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { MapContext } from './components/context'
 import {
   MapEventList,
-  addMapEvents,
+  addEvents,
   eventsMap,
   Listeners,
-  updateMapEvents
+  updateEvents
 } from './events'
 import equal from 'fast-deep-equal'
+import { diffLngLat } from './utils'
 interface MapGlobalConf {
   baseapiurl?: string
   workercount?: number
@@ -37,7 +38,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
   const isMounted = useRef<boolean>(false)
   const [map, setMap] = useState<mapboxgl.Map | null>(null)
   const divRef = useRef<HTMLDivElement>(document.createElement('div'))
-  const eventRef = useRef<Listeners>({})
+  const eventRef = useRef<Listeners<MapEventList>>({})
   const prevPropsRef = useRef<Props>({ ...props })
   const currentPropsRef = useRef<Props>({ ...props })
   currentPropsRef.current = props
@@ -61,11 +62,12 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
     if (map) {
       const currentProps = currentPropsRef.current
       const prevProps = prevPropsRef.current
-      eventRef.current = updateMapEvents(eventRef.current, currentProps, map)
-      const center = map.getCenter() || {
-        lng: 0,
-        lat: 0
-      }
+      eventRef.current = updateEvents(
+        eventRef.current,
+        currentProps,
+        map,
+        eventsMap
+      )
       const didZoomUpdate =
         prevProps.zoom !== currentProps.zoom &&
         currentProps.zoom !== map.getZoom()
@@ -75,18 +77,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
       const didPitchUpdate =
         prevProps.pitch !== currentProps.pitch &&
         currentProps.pitch !== map.getPitch()
-      const didCenterUpdate =
-        !currentProps.center || prevProps.center === currentProps.center
-          ? false
-          : Array.isArray(currentProps.center)
-          ? (currentProps.center && currentProps.center[0]) !== center.lng ||
-            (currentProps.center && currentProps.center[1]) !== center.lat
-          : 'lon' in currentProps.center
-          ? currentProps.center?.lon !== center.lng ||
-            currentProps.center.lat !== center.lat
-          : currentProps.center?.lat !== center.lng ||
-            currentProps.center.lat !== center.lat
-
+      const didCenterUpdate = diffLngLat(map.getCenter(), currentProps.center)
       if (currentProps.maxBounds) {
         const didMaxBoundsUpdate =
           prevProps.maxBounds !== currentProps.maxBounds
@@ -141,6 +132,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
     if (injectCSS) {
       require('mapbox-gl/dist/mapbox-gl.css')
     }
+    mapboxgl['prewarm']()
     if (baseapiurl) {
       mapboxgl.baseApiUrl = baseapiurl
     }
@@ -159,6 +151,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
         true
       )
     }
+
     let map = new mapboxgl.Map({
       ...mapboxOpts,
       container: divRef.current!,
@@ -171,7 +164,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
     })
     !!ref && (typeof ref === 'function' ? ref(map) : (ref.current = map))
     setMap(map)
-    eventRef.current = addMapEvents(eventsMap, props, map)
+    eventRef.current = addEvents(eventsMap, props, map)
   }, [])
   useEffect(() => {
     if (!isMounted.current) {

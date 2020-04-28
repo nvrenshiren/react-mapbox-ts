@@ -49,7 +49,8 @@ module.exports = files.map(({ entryName, outputName, minimizer }) => ({
   },
   externals: {
     react: 'React',
-    'mapbox-gl': 'mapboxgl'
+    'mapbox-gl': 'mapboxgl',
+    'mapbox-gl/dist/mapbox-gl.css': 'mapbox-gl/dist/mapbox-gl.css'
   },
   mode: 'production',
   optimization: {

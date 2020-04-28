@@ -1,6 +1,6 @@
 import React from 'react'
 import raw from 'raw.macro'
-import LiveCode from '@/utils/live.code'
+import LiveCode from '@/components/liveCode/live.code'
 import './index.less'
 import IndexPageDemo from '@/demos/index.page.demo'
 const IndexPage: React.FC = () => {

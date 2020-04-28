@@ -1,13 +1,25 @@
-import { MapboxEvent, MapContextEvent, MapDataEvent, MapSourceDataEvent, MapStyleDataEvent, MapBoxZoomEvent, MapTouchEvent, MapMouseEvent, MapWheelEvent, MapLayerMouseEvent, MapLayerTouchEvent, MapEventType, MapLayerEventType } from "mapbox-gl"
+import {
+  MapboxEvent,
+  MapContextEvent,
+  MapDataEvent,
+  MapSourceDataEvent,
+  MapStyleDataEvent,
+  MapBoxZoomEvent,
+  MapTouchEvent,
+  MapMouseEvent,
+  MapWheelEvent,
+  MapLayerMouseEvent,
+  MapLayerTouchEvent,
+  MapEventType,
+  MapLayerEventType
+} from 'mapbox-gl'
 
 export type EventAll = MapEventType & MapLayerEventType
-export type EventListAll = MapEventList & MapLayerEventList
-export type EventMapping = Partial<{ [T in keyof EventListAll]: keyof EventAll }>
-export type EventCallBack<T = {}> = (
-  eventData?: T,
-) => void
-export type Listeners = {
-  [T in keyof MapEventList]?: (evt: EventCallBack) => void
+export type EventListAll = MapEventList & MapLayerEventList & MarkerEventList
+export type EventMapping<U = {}, C = {}> = Partial<{ [T in keyof U]: keyof C }>
+export type EventCallBack<T = {}> = (eventData?: T) => void
+export type Listeners<U> = {
+  [T in keyof U]?: (evt: EventCallBack) => void
 }
 export type MapEventList = {
   onError: EventCallBack<ErrorEvent>
@@ -39,12 +51,24 @@ export type MapEventList = {
   onMouseDown: EventCallBack<MapMouseEvent>
   onMouseOut: EventCallBack<MapMouseEvent>
   onMouseOver: EventCallBack<MapMouseEvent>
-  onMoveStart: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>>
-  onMove: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>>
-  onMoveEnd: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>>
-  onZoomStart: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>>
-  onZoom: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>>
-  onZoomEnd: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>>
+  onMoveStart: EventCallBack<
+    MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>
+  >
+  onMove: EventCallBack<
+    MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>
+  >
+  onMoveEnd: EventCallBack<
+    MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>
+  >
+  onZoomStart: EventCallBack<
+    MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>
+  >
+  onZoom: EventCallBack<
+    MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>
+  >
+  onZoomEnd: EventCallBack<
+    MapboxEvent<MouseEvent | TouchEvent | WheelEvent | undefined>
+  >
   onRotateStart: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
   onRotate: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
   onRotateEnd: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
@@ -72,15 +96,21 @@ export type MapLayerEventList = {
   onTouchEnd: EventCallBack<MapLayerTouchEvent>
   onTouchCancel: EventCallBack<MapLayerTouchEvent>
 }
-export type MarkerEventList = {
-  onDragStart: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
-  onDrag: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
-  onDragEnd: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
+
+type MarkerEvent = {
+  type: 'drag' | 'dragend' | 'dragstart'
+  target: mapboxgl.Marker
 }
 
-export const eventsMap: EventMapping = {
-  onClick: 'click',
+export type MarkerEventList = {
+  onDragStart: EventCallBack<MarkerEvent>
+  onDrag: EventCallBack<MarkerEvent>
+  onDragEnd: EventCallBack<MarkerEvent>
+}
+
+export const eventsMap: EventMapping<MapEventList, MapEventType> = {
   onError: 'error',
+  onClick: 'click',
   onLoad: 'load',
   onData: 'data',
   onDataLoading: 'dataloading',
@@ -103,15 +133,13 @@ export const eventsMap: EventMapping = {
   onTouchMove: 'touchmove',
   onTouchStart: 'touchstart',
   onDblClick: 'dblclick',
-  onZoom: "zoom",
+  onZoom: 'zoom',
   onZoomEnd: 'zoomend',
   onZoomStart: 'zoomstart',
   onDrag: 'drag',
   onDragEnd: 'dragend',
   onDragStart: 'dragstart',
   onMouseDown: 'mousedown',
-  onMouseEnter: 'mouseenter',
-  onMouseLeave: 'mouseleave',
   onMouseMove: 'mousemove',
   onMouseOut: 'mouseout',
   onMouseOver: 'mouseover',
@@ -128,7 +156,7 @@ export const eventsMap: EventMapping = {
   onWheel: 'wheel'
 }
 
-export const eventsLayer: EventMapping = {
+export const eventsLayer: EventMapping<MapLayerEventList, MapLayerEventType> = {
   onClick: 'click',
   onDblClick: 'dblclick',
   onMouseDown: 'mousedown',
@@ -141,49 +169,54 @@ export const eventsLayer: EventMapping = {
   onContextMenu: 'contextmenu',
   onTouchStart: 'touchstart',
   onTouchEnd: 'touchend',
-  onTouchCancel: 'touchcancel',
+  onTouchCancel: 'touchcancel'
 }
 
-export const eventsMarker: EventMapping = {
+export const eventsMarker: EventMapping<MarkerEventList, any> = {
   onDrag: 'drag',
   onDragEnd: 'dragend',
-  onDragStart: 'dragstart',
+  onDragStart: 'dragstart'
 }
 
-export function addMapEvents(eventsMap: EventMapping, props: Partial<MapEventList>, map: mapboxgl.Map) {
-  const keyList = Object.keys(eventsMap) as Array<keyof MapEventList>
+export function addEvents<T = any, U = any>(
+  eventsMap: EventMapping<T, U>,
+  props: Partial<T>,
+  map: mapboxgl.Map | mapboxgl.Marker
+) {
+  const keyList = Object.keys(eventsMap) as Array<keyof T>
   return keyList.reduce((listeners, name) => {
-    const propEvent = props[name]
+    const propEvent: any = props[name]
     if (!!propEvent) {
       const listener = (evt: any) => {
         propEvent(evt)
       }
-      map.on(eventsMap[name] as string, listener)
+      map.on(eventsMap[name] as any, listener)
       listeners[name] = listener
     }
     return listeners
-  }, {} as Listeners)
+  }, {} as Listeners<T>)
 }
-
-
-
-
-export function updateMapEvents(
-  listeners: Listeners,
-  nextProps: Partial<MapEventList>,
-  map: mapboxgl.Map
+export function updateEvents<T = any, U = any>(
+  listeners: Listeners<T>,
+  nextProps: Partial<T>,
+  map: mapboxgl.Map | mapboxgl.Marker,
+  eventsMap: EventMapping<T, U>
 ) {
-  const keyList = Object.keys(eventsMap) as Array<keyof MapEventList>
+  const keyList = Object.keys(eventsMap) as Array<keyof T>
   const toListenOff = keyList.filter(
-    eventKey => !!listeners[eventKey] && typeof nextProps[eventKey] !== 'function'
+    (eventKey) =>
+      !!listeners[eventKey] && typeof nextProps[eventKey] !== 'function'
   )
   toListenOff.forEach((key) => {
-    map.off(eventsMap[key] as string, listeners[key]!)
+    map.off(eventsMap[key] as any, listeners[key]!)
     delete listeners[key]
   })
   const toListenOn = keyList
-    .filter(key => !listeners[key] && typeof nextProps[key] === 'function')
-    .reduce((acc, next) => ((acc[next] = eventsMap[next]), acc), {} as EventMapping)
-  const newListeners = addMapEvents(toListenOn, nextProps, map)
+    .filter((key) => !listeners[key] && typeof nextProps[key] === 'function')
+    .reduce((acc, next) => {
+      acc[next] = eventsMap[next] as any
+      return acc
+    }, {} as EventMapping<T>)
+  const newListeners = addEvents(toListenOn, nextProps, map)
   return { ...listeners, ...newListeners }
 }

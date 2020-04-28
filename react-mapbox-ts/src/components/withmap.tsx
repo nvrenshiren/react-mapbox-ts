@@ -1,5 +1,5 @@
 import { MapContext, MapContextAction } from './context'
-import React from 'react'
+import React, { ReactElement, useContext } from 'react'
 
 export function withMap<T>(
   Component: React.ComponentType<T & MapContextAction>
@@ -12,3 +12,15 @@ export function withMap<T>(
     )
   }
 }
+
+type Props = {
+  map: any
+}
+const WithContent: React.FC<Props> = (props) => {
+  return (
+    <MapContext.Provider value={{ map: props.map }}>
+      {props.children}
+    </MapContext.Provider>
+  )
+}
+export default WithContent

@@ -1,4 +1,4 @@
-import LiveCode from '@/utils/live.code'
+import LiveCode from '@/components/liveCode/live.code'
 import raw from 'raw.macro'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Button, Layout, Menu, PageHeader, Typography } from 'antd'
