@@ -1,7 +1,6 @@
 import mapboxgl, { AnimationOptions, FlyToOptions } from 'mapbox-gl'
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { MapContext } from './components/context'
-import { createPortal } from 'react-dom'
 import {
   MapEventList,
   addMapEvents,
@@ -20,10 +19,9 @@ interface MapDivConf {
   divStyle?: React.CSSProperties
   divClass?: string
   injectCSS?: boolean
-  children?: JSX.Element
+  children?: React.ReactNode
 }
 interface MapDiyConf {
-  renderChildrenInPortal?: boolean
   movingMethod?: 'jumpTo' | 'easeTo' | 'flyTo'
   fitBounds?: [[number, number], [number, number]]
   animationOptions?: Partial<AnimationOptions>
@@ -55,7 +53,6 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
     animationOptions,
     fitBounds,
     flyToOptions,
-    renderChildrenInPortal,
     children,
     ...mapboxOpts
   } = props
@@ -173,11 +170,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
         : mapboxOpts.center
     })
     !!ref && (typeof ref === 'function' ? ref(map) : (ref.current = map))
-    map.on('load', () => {
-      if (isMounted.current) {
-        setMap(map)
-      }
-    })
+    setMap(map)
     eventRef.current = addMapEvents(eventsMap, props, map)
   }, [])
   useEffect(() => {
@@ -195,12 +188,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
       map && map.remove()
     }
   }, [])
-  const container =
-    renderChildrenInPortal &&
-    map &&
-    typeof map.getCanvasContainer === 'function'
-      ? map.getCanvasContainer()
-      : undefined
+
   return (
     <MapContext.Provider value={{ map }}>
       <div
@@ -210,7 +198,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
           divRef.current = e!
         }}
       >
-        {!!map && (container ? createPortal(children, container) : children)}
+        {!!map && children}
       </div>
     </MapContext.Provider>
   )

@@ -1,14 +1,18 @@
-import React from 'react'
-import { Map } from 'react-mapbox-ts'
+import React, { useRef } from 'react'
+import { Map, Marker } from 'react-mapbox-ts'
 import mapboxConf from '@/assets/mapbox.conf'
-const IndexPageDemo: React.FC = () => {
+
+export default () => {
+  const mapRef = useRef()
   return (
     <Map
+      ref={mapRef}
       accessToken={mapboxConf.accessToken}
       style={mapboxConf.style}
       center={mapboxConf.center}
       zoom={mapboxConf.zoom}
-    />
+    >
+      <Marker />
+    </Map>
   )
 }
-export default IndexPageDemo

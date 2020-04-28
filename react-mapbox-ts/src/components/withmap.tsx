@@ -7,7 +7,7 @@ export function withMap<T>(
   return (props: T) => {
     return (
       <MapContext.Consumer>
-        {(MapContext) => <Component map={MapContext.map} {...props} />}
+        {(MapState) => <Component map={MapState.map} {...props} />}
       </MapContext.Consumer>
     )
   }

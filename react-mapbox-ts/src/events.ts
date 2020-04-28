@@ -72,7 +72,11 @@ export type MapLayerEventList = {
   onTouchEnd: EventCallBack<MapLayerTouchEvent>
   onTouchCancel: EventCallBack<MapLayerTouchEvent>
 }
-
+export type MarkerEventList = {
+  onDragStart: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
+  onDrag: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
+  onDragEnd: EventCallBack<MapboxEvent<MouseEvent | TouchEvent | undefined>>
+}
 
 export const eventsMap: EventMapping = {
   onClick: 'click',
@@ -140,7 +144,11 @@ export const eventsLayer: EventMapping = {
   onTouchCancel: 'touchcancel',
 }
 
-
+export const eventsMarker: EventMapping = {
+  onDrag: 'drag',
+  onDragEnd: 'dragend',
+  onDragStart: 'dragstart',
+}
 
 export function addMapEvents(eventsMap: EventMapping, props: Partial<MapEventList>, map: mapboxgl.Map) {
   const keyList = Object.keys(eventsMap) as Array<keyof MapEventList>

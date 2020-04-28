@@ -1,9 +1,9 @@
 import LiveCode from '@/utils/live.code'
-import { Layout, Menu, PageHeader, Typography, Button } from 'antd'
-import { CodeOutlined } from '@ant-design/icons'
-import { ClickParam } from 'antd/lib/menu'
 import raw from 'raw.macro'
 import React, { useCallback, useMemo, useState } from 'react'
+import { Button, Layout, Menu, PageHeader, Typography } from 'antd'
+import { ClickParam } from 'antd/lib/menu'
+import { CodeOutlined } from '@ant-design/icons'
 import { dynamic } from 'umi'
 import './demos.less'
 const { Sider, Content } = Layout
@@ -37,6 +37,12 @@ const menuList: { [key: string]: MenuItem } = {
         code: raw('../demos/raws/demos.style.worldCopies.raw'),
         des:
           'Toggle between rendering a single world and multiple copies of the world.'
+      },
+      {
+        name: '地图标注',
+        key: 'marker',
+        code: raw('../demos/raws/demos.style.marker.raw'),
+        des: 'Add a default Marker to the map.'
       }
     ]
   },

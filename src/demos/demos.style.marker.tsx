@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Map } from 'react-mapbox-ts'
+import { Map, Marker } from 'react-mapbox-ts'
 import mapboxConf from '@/assets/mapbox.conf'
 
 export default () => {
@@ -11,6 +11,8 @@ export default () => {
       style={mapboxConf.style}
       center={mapboxConf.center}
       zoom={mapboxConf.zoom}
-    />
+    >
+      <Marker positon={[mapboxConf.center.lon, mapboxConf.center.lat]} />
+    </Map>
   )
 }
