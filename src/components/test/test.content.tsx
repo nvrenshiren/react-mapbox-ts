@@ -1,21 +1,17 @@
-import React, { useContext, useState } from 'react'
-import { MapContext } from 'react-mapbox-ts'
+import React, { useRef, useEffect, useCallback } from 'react'
 
 interface Props {
   content: string
 }
 
 export default (props: Props) => {
-  const { map } = useContext(MapContext)
-  const [txt, setTxt] = useState(1)
-  console.log(map)
-  return (
-    <div
-      onClick={() => {
-        setTxt(txt + 1)
-      }}
-    >
-      {props.content}------{txt}
-    </div>
-  )
+  const cref = useRef({ ...props })
+  const pref = useRef({ ...props })
+  cref.current = { ...props }
+  const { content } = props
+  const cb = useCallback(() => {}, [])
+  useEffect(() => {
+    cb()
+  })
+  return <div>{props.content}</div>
 }

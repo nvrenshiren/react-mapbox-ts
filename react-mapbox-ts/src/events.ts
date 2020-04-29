@@ -178,10 +178,25 @@ export const eventsMarker: EventMapping<MarkerEventList, any> = {
   onDragStart: 'dragstart'
 }
 
+function MapEventDo(
+  map: mapboxgl.Map | mapboxgl.Marker,
+  eventName: EventMapping | undefined,
+  cb: Function,
+  action: string,
+  layerId?: string
+) {
+  if (!!layerId) {
+    map[action](eventName, layerId, cb)
+  } else {
+    map[action](eventName, cb)
+  }
+}
+
 export function addEvents<T = any, U = any>(
   eventsMap: EventMapping<T, U>,
   props: Partial<T>,
-  map: mapboxgl.Map | mapboxgl.Marker
+  map: mapboxgl.Map | mapboxgl.Marker,
+  layerId?: string
 ) {
   const keyList = Object.keys(eventsMap) as Array<keyof T>
   return keyList.reduce((listeners, name) => {
@@ -190,7 +205,8 @@ export function addEvents<T = any, U = any>(
       const listener = (evt: any) => {
         propEvent(evt)
       }
-      map.on(eventsMap[name] as any, listener)
+      MapEventDo(map, eventsMap[name], listener, 'on', layerId)
+
       listeners[name] = listener
     }
     return listeners
@@ -200,7 +216,8 @@ export function updateEvents<T = any, U = any>(
   listeners: Listeners<T>,
   nextProps: Partial<T>,
   map: mapboxgl.Map | mapboxgl.Marker,
-  eventsMap: EventMapping<T, U>
+  eventsMap: EventMapping<T, U>,
+  layerId?: string
 ) {
   const keyList = Object.keys(eventsMap) as Array<keyof T>
   const toListenOff = keyList.filter(
@@ -208,7 +225,7 @@ export function updateEvents<T = any, U = any>(
       !!listeners[eventKey] && typeof nextProps[eventKey] !== 'function'
   )
   toListenOff.forEach((key) => {
-    map.off(eventsMap[key] as any, listeners[key]!)
+    MapEventDo(map, eventsMap[key], listeners[key]!, 'off', layerId)
     delete listeners[key]
   })
   const toListenOn = keyList
@@ -217,6 +234,6 @@ export function updateEvents<T = any, U = any>(
       acc[next] = eventsMap[next] as any
       return acc
     }, {} as EventMapping<T>)
-  const newListeners = addEvents(toListenOn, nextProps, map)
+  const newListeners = addEvents(toListenOn, nextProps, map, layerId)
   return { ...listeners, ...newListeners }
 }

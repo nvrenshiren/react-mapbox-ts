@@ -1,6 +1,7 @@
 #DemosPage {
   height: 100%;
   .menu-side {
+    overflow-y: auto;
     h4 {
       margin: 0;
     }
@@ -27,5 +28,19 @@
       flex-grow: 1;
       margin-top: 20px;
     }
+  }
+  ::-webkit-scrollbar-track {
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 3px;
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border: none;
+    outline: none;
+    background-color: #ddd;
   }
 }

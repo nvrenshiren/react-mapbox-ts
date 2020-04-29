@@ -163,8 +163,10 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
         : mapboxOpts.center
     })
     !!ref && (typeof ref === 'function' ? ref(map) : (ref.current = map))
-    setMap(map)
     eventRef.current = addEvents(eventsMap, props, map)
+    map.on('load', () => {
+      setMap(map)
+    })
   }, [])
   useEffect(() => {
     if (!isMounted.current) {

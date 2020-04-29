@@ -2,7 +2,6 @@ import mapboxConf from '@/assets/mapbox.conf'
 import { Button, Tooltip } from 'antd'
 import React, { useRef } from 'react'
 import { Map, Marker } from 'react-mapbox-ts'
-
 export default () => {
   const mapRef = useRef()
   return (
@@ -27,7 +26,6 @@ export default () => {
         <Button type="danger">可拖动</Button>
       </Marker>
       <Marker
-        draggable
         positon={[114.352309, 30.518589]}
         popup={<div>原生提示框</div>}
         popupOption={{

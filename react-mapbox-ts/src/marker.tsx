@@ -1,12 +1,10 @@
-import mapboxgl, { LngLatLike, Popup } from 'mapbox-gl'
+import mapboxgl, { LngLatLike } from 'mapbox-gl'
 import React, {
   forwardRef,
   useCallback,
   useContext,
   useEffect,
-  useRef,
-  useState,
-  useMemo
+  useRef
 } from 'react'
 import { createPortal } from 'react-dom'
 import { MapContext } from './components/context'
@@ -16,6 +14,7 @@ import {
   MarkerEventList,
   updateEvents
 } from './events'
+import Popup from './popup'
 import { diffLngLat } from './utils'
 interface Props
   extends Omit<mapboxgl.MarkerOptions, 'element'>,
@@ -29,7 +28,6 @@ interface Props
 const Marker = forwardRef<mapboxgl.Marker, Props>((props, ref) => {
   const isMounted = useRef<boolean>(false)
   const { map } = useContext(MapContext)
-  const [show, setShow] = useState(false)
   const prevPropsRef = useRef<Props>({ ...props })
   const currentPropsRef = useRef<Props>({ ...props })
   currentPropsRef.current = props
@@ -38,15 +36,8 @@ const Marker = forwardRef<mapboxgl.Marker, Props>((props, ref) => {
   const markerRef = useRef<mapboxgl.Marker>(
     new mapboxgl.Marker({
       ...options,
-      element: !!props.children ? document.createElement('div') : undefined
+      element: !!children ? document.createElement('div') : undefined
     }).setLngLat(positon)
-  )
-  const popupRef = useRef<mapboxgl.Popup | null>(
-    !!props.popup
-      ? new mapboxgl.Popup(popupOption)
-          .setHTML('<div class="popup-content"></div>')
-          .addTo(map!)
-      : null
   )
   const DidUpdate = useCallback(() => {
     const currentProps = currentPropsRef.current
@@ -76,16 +67,6 @@ const Marker = forwardRef<mapboxgl.Marker, Props>((props, ref) => {
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true
-      if (props.popup && popupRef.current) {
-        markerRef.current.setPopup(popupRef.current)
-        popupRef.current
-          .on('open', () => {
-            setShow(true)
-          })
-          .on('close', () => {
-            setShow(false)
-          })
-      }
       markerRef.current.addTo(map!)
     } else {
       DidUpdate()
@@ -103,25 +84,17 @@ const Marker = forwardRef<mapboxgl.Marker, Props>((props, ref) => {
     return () => {
       isMounted.current = false
       markerRef.current.remove()
-      popupRef.current && popupRef.current.off('open').off('close').remove()
     }
   }, [])
 
-  const popupEle = useMemo(() => {
-    if (!!props.popup && popupRef.current && show) {
-      return createPortal(
-        props.popup,
-        popupRef.current.getElement().querySelector('.popup-content')!
-      )
-    }
-    return null
-  }, [show])
   return (
     <>
-      {props.children
-        ? createPortal(props.children, markerRef.current.getElement())
-        : null}
-      {popupEle}
+      {children ? createPortal(children, markerRef.current.getElement()) : null}
+      {!!popup && (
+        <Popup {...popupOption} withMarker={markerRef.current}>
+          {popup}
+        </Popup>
+      )}
     </>
   )
 })

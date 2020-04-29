@@ -3,6 +3,7 @@ import { Radio } from 'antd'
 import React, { useCallback, useState } from 'react'
 import { RadioChangeEvent } from 'antd/lib/radio'
 import mapboxConf from '@/assets/mapbox.conf'
+
 const defaultValue = 'streets-v11'
 export default () => {
   const [style, setStyle] = useState(defaultValue)

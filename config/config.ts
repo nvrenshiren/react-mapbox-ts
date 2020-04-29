@@ -12,8 +12,9 @@ export default defineConfig({
   ignoreMomentLocale: true,
   inlineLimit: 10000,
   extraBabelPlugins: ['babel-plugin-macros'],
-  dynamicImport: {},
-
+  dynamicImport: {
+    loading: '@/components/page/page.loading.tsx'
+  },
   chainWebpack: (memo) => {
     memo.module
       .rule('no-use-base64')
