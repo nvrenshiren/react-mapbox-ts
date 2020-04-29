@@ -22,7 +22,9 @@ const DemosPage: React.FC = () => {
   )
   const dynamicComponent = useCallback(() => {
     return dynamic({
-      loader: () => import(`@/demos/demos.${group}.${name}`)
+      loader: () => import(`@/demos/demos.${group}.${name}`),
+      loading: require('../components/page/page.loading').default,
+      delay: 400
     })
   }, [key])
   const MenuClick = useCallback((param: ClickParam) => {
