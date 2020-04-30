@@ -1,5 +1,5 @@
 import mapboxgl, { AnimationOptions, FlyToOptions } from 'mapbox-gl'
-import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { MapContext } from './components/context'
 import {
   MapEventList,
@@ -68,15 +68,9 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
         map,
         eventsMap
       )
-      const didZoomUpdate =
-        prevProps.zoom !== currentProps.zoom &&
-        currentProps.zoom !== map.getZoom()
-      const didBearingUpdate =
-        prevProps.bearing !== currentProps.bearing &&
-        currentProps.bearing !== map.getBearing()
-      const didPitchUpdate =
-        prevProps.pitch !== currentProps.pitch &&
-        currentProps.pitch !== map.getPitch()
+      const didZoomUpdate = prevProps.zoom !== currentProps.zoom
+      const didBearingUpdate = prevProps.bearing !== currentProps.bearing
+      const didPitchUpdate = prevProps.pitch !== currentProps.pitch
       const didCenterUpdate = diffLngLat(map.getCenter(), currentProps.center)
       if (currentProps.maxBounds) {
         const didMaxBoundsUpdate =
@@ -125,6 +119,8 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
       }
       if (prevProps.renderWorldCopies !== currentProps.renderWorldCopies) {
         map.setRenderWorldCopies(currentProps.renderWorldCopies)
+      }
+      if (prevProps.scrollZoom !== currentProps.scrollZoom) {
       }
     }
   }, [map])
