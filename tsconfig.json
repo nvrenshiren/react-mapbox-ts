@@ -20,7 +20,8 @@
     "noImplicitThis": true,
     "strictNullChecks": false,
     "removeComments": true,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "strict": false
   },
-  "exclude": ["react-mapbox-ts/*"]
+  "exclude": ["node_modules", "react-mapbox-ts"]
 }

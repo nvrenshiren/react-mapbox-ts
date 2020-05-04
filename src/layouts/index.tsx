@@ -5,6 +5,7 @@ import { Col, Layout, Menu, Row, Typography } from 'antd'
 import { history } from 'umi'
 import { ReactSVG } from 'react-svg'
 import './index.less'
+
 const { Item } = Menu
 const { Header, Content } = Layout
 const { Text } = Typography

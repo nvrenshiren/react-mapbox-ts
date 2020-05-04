@@ -1,12 +1,15 @@
 import React, { useRef, useEffect } from 'react'
 import { Map } from 'react-mapbox-ts'
 import mapboxConf from '@/assets/mapbox.conf'
-const IndexPageDemo: React.FC = () => {
+const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map>()
   useEffect(() => {}, [])
   return (
     <Map
-      ref={mapRef}
+      // ref={mapRef}
+      ref={(map) => {
+        window.map = map
+      }}
       accessToken={mapboxConf.accessToken}
       style={mapboxConf.style}
       center={mapboxConf.center}
@@ -15,4 +18,4 @@ const IndexPageDemo: React.FC = () => {
     />
   )
 }
-export default IndexPageDemo
+export default Demo

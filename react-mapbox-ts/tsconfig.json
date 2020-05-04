@@ -9,7 +9,6 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./lib",
-    "strict": true,
     "jsx": "react",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -19,7 +18,8 @@
     "strictNullChecks": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "strict": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "lib", "lib-esm", "src/__tests__", "lib"]

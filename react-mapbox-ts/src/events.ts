@@ -199,18 +199,15 @@ export function addEvents<T = any, U = any>(
   layerId?: string
 ) {
   const keyList = Object.keys(eventsMap) as Array<keyof T>
-  return keyList.reduce((listeners, name) => {
+  const listenersList = keyList.reduce((listeners, name) => {
     const propEvent: any = props[name]
     if (!!propEvent) {
-      const listener = (evt: any) => {
-        propEvent(evt)
-      }
-      MapEventDo(map, eventsMap[name], listener, 'on', layerId)
-
-      listeners[name] = listener
+      MapEventDo(map, eventsMap[name], propEvent, 'on', layerId)
+      listeners[name] = propEvent
     }
     return listeners
   }, {} as Listeners<T>)
+  return listenersList
 }
 export function updateEvents<T = any, U = any>(
   listeners: Listeners<T>,
@@ -220,16 +217,23 @@ export function updateEvents<T = any, U = any>(
   layerId?: string
 ) {
   const keyList = Object.keys(eventsMap) as Array<keyof T>
-  const toListenOff = keyList.filter(
-    (eventKey) =>
-      !!listeners[eventKey] && typeof nextProps[eventKey] !== 'function'
-  )
+  const toListenOff = keyList.filter((eventKey) => {
+    return (
+      (!!listeners[eventKey] && typeof nextProps[eventKey] !== 'function') ||
+      listeners[eventKey] !== nextProps[eventKey]
+    )
+  })
+
   toListenOff.forEach((key) => {
     MapEventDo(map, eventsMap[key], listeners[key]!, 'off', layerId)
     delete listeners[key]
   })
   const toListenOn = keyList
-    .filter((key) => !listeners[key] && typeof nextProps[key] === 'function')
+    .filter((key) => {
+      return !listeners[key]
+        ? typeof nextProps[key] === 'function'
+        : listeners[key] !== nextProps[key]
+    })
     .reduce((acc, next) => {
       acc[next] = eventsMap[next] as any
       return acc

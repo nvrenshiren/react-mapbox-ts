@@ -1,7 +1,8 @@
 import React from 'react'
+import { MapBoxPlus } from 'mapbox-gl'
 
 export interface MapContextAction {
-  map: mapboxgl.Map | null
+  map: MapBoxPlus | null
 }
 
 export const MapContext = React.createContext<MapContextAction>({

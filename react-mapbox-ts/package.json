@@ -1,14 +1,14 @@
 {
   "name": "react-mapbox-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "/lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build:cleanup": "rimraf lib",
-    "build:lib": "yarn build:cleanup && tsc",
+    "build:lib": "npm run build:cleanup && tsc",
     "build:standalone": "cross-env BABEL_ENV=production webpack",
-    "build": "yarn build:lib && yarn build:standalone",
+    "build": "npm run build:lib && npm run build:standalone",
     "pub": "npm publish"
   },
   "files": [
@@ -42,5 +42,13 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
-  }
+  },
+  "dependencies": {
+    "@types/geojson": "^7946.0.7"
+  },
+  "keywords": [
+    "mapbox",
+    "react",
+    "typescript"
+  ]
 }

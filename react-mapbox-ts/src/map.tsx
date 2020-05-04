@@ -1,15 +1,14 @@
-import mapboxgl, { AnimationOptions, FlyToOptions } from 'mapbox-gl'
-import React, { useEffect, useRef, useState, useCallback } from 'react'
+import equal from 'fast-deep-equal'
+import mapboxgl, { AnimationOptions, FlyToOptions, MapBoxPlus } from 'mapbox-gl'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { MapContext } from './components/context'
 import {
-  MapEventList,
   addEvents,
   eventsMap,
   Listeners,
+  MapEventList,
   updateEvents
 } from './events'
-import equal from 'fast-deep-equal'
-import { diffLngLat } from './utils'
 interface MapGlobalConf {
   baseapiurl?: string
   workercount?: number
@@ -34,9 +33,9 @@ type Props = Partial<Omit<mapboxgl.MapboxOptions, 'container'>> &
   MapDivConf &
   MapDiyConf &
   Partial<MapEventList>
-const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
+const Map = React.forwardRef<MapBoxPlus, Props>((props, ref) => {
   const isMounted = useRef<boolean>(false)
-  const [map, setMap] = useState<mapboxgl.Map | null>(null)
+  const [map, setMap] = useState<MapBoxPlus | null>(null)
   const divRef = useRef<HTMLDivElement>(document.createElement('div'))
   const eventRef = useRef<Listeners<MapEventList>>({})
   const prevPropsRef = useRef<Props>({ ...props })
@@ -71,14 +70,8 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
       const didZoomUpdate = prevProps.zoom !== currentProps.zoom
       const didBearingUpdate = prevProps.bearing !== currentProps.bearing
       const didPitchUpdate = prevProps.pitch !== currentProps.pitch
-      const didCenterUpdate = diffLngLat(map.getCenter(), currentProps.center)
-      if (currentProps.maxBounds) {
-        const didMaxBoundsUpdate =
-          prevProps.maxBounds !== currentProps.maxBounds
-        if (didMaxBoundsUpdate) {
-          map.setMaxBounds(currentProps.maxBounds)
-        }
-      }
+      const didCenterUpdate = !equal(prevProps.center, currentProps.center)
+
       if (currentProps.fitBounds) {
         const { fitBounds } = prevProps
         const didFitBoundsUpdate =
@@ -97,6 +90,46 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
           })
         }
       }
+
+      //地图样式
+      if (!!currentProps.style && !equal(prevProps.style, currentProps.style)) {
+        map.setStyle(currentProps.style)
+      }
+      //地图副本
+      if (prevProps.renderWorldCopies !== currentProps.renderWorldCopies) {
+        map.setRenderWorldCopies(currentProps.renderWorldCopies)
+      }
+      //地图操作开关
+      const interActions = [
+        'scrollZoom',
+        'boxZoom',
+        'dragRotate',
+        'dragPan',
+        'keyboard',
+        'doubleClickZoom',
+        'touchZoomRotate'
+      ]
+      interActions.forEach((key) => {
+        if (prevProps[key] !== currentProps[key]) {
+          map[key][currentProps[key] ? 'enable' : 'disable']()
+        }
+      })
+      const MaxMinConfs = [
+        'maxBounds',
+        'maxZoom',
+        'minZoom',
+        'minPitch',
+        'maxPitch'
+      ]
+      MaxMinConfs.forEach((key) => {
+        if (prevProps[key] !== currentProps[key]) {
+          map[`set${key.charAt(0).toUpperCase() + key.slice(1)}`](
+            currentProps[key]
+          )
+        }
+      })
+
+      //地图视角
       if (
         didZoomUpdate ||
         didCenterUpdate ||
@@ -114,21 +147,13 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
           pitch: (didPitchUpdate && currentProps.pitch) || map.getPitch()
         })
       }
-      if (!!currentProps.style && !equal(prevProps.style, currentProps.style)) {
-        map.setStyle(currentProps.style)
-      }
-      if (prevProps.renderWorldCopies !== currentProps.renderWorldCopies) {
-        map.setRenderWorldCopies(currentProps.renderWorldCopies)
-      }
-      if (prevProps.scrollZoom !== currentProps.scrollZoom) {
-      }
     }
   }, [map])
   const initMap = useCallback(() => {
     if (injectCSS) {
       require('mapbox-gl/dist/mapbox-gl.css')
     }
-    mapboxgl['prewarm']()
+    mapboxgl.prewarm()
     if (baseapiurl) {
       mapboxgl.baseApiUrl = baseapiurl
     }
@@ -147,7 +172,6 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
         true
       )
     }
-
     let map = new mapboxgl.Map({
       ...mapboxOpts,
       container: divRef.current!,
@@ -157,7 +181,7 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
             (fitBounds[0][1] + fitBounds[1][1]) / 2
           ]
         : mapboxOpts.center
-    })
+    }) as MapBoxPlus
     !!ref && (typeof ref === 'function' ? ref(map) : (ref.current = map))
     eventRef.current = addEvents(eventsMap, props, map)
     map.on('load', () => {
@@ -168,11 +192,15 @@ const Map = React.forwardRef<mapboxgl.Map, Props>((props, ref) => {
     if (!isMounted.current) {
       initMap()
       isMounted.current = true
-    } else {
+    }
+  })
+  useEffect(() => {
+    //自身的state不触发更新
+    if (isMounted.current) {
       DidUpdate()
       prevPropsRef.current = { ...props }
     }
-  })
+  }, [props])
   useEffect(() => {
     return () => {
       isMounted.current = false

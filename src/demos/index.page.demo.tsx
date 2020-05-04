@@ -1,44 +1,74 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react'
-import { Map, GeoJSONSource, Layer } from 'react-mapbox-ts'
+import '@/assets/fc/fc.less'
 import mapboxConf from '@/assets/mapbox.conf'
-import { request } from 'umi'
-import { LngLatLike } from 'react-mapbox-ts/node_modules/@types/mapbox-gl'
-const IndexPageDemo: React.FC = () => {
+import FCPolygon from '@/fc/polygon'
+import mapboxgl from 'mapbox-gl'
+import React, { useRef } from 'react'
+import {
+  Layer,
+  LoadImage,
+  Map,
+  RasterSource,
+  GeoJSONSource
+} from 'react-mapbox-ts'
+const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map>()
-  const url = 'https://wanderdrone.appspot.com/'
-  const [center, setCenter] = useState<LngLatLike>([0, 0])
-  const [data, setData] = useState()
-  useEffect(() => {
-    setInterval(WsetInterval, 2000)
-  }, [])
-  const WsetInterval = useCallback(() => {
-    request(url, { method: 'get' }).then((res) => {
-      setData(res)
-      setCenter(res.geometry.coordinates)
-      // fly the map to the drone's current location
-    })
-  }, [])
-
   return (
     <Map
-      ref={mapRef}
+      // ref={mapRef}
+      ref={(map) => {
+        window.map = map
+        map.addControl(new mapboxgl.FullscreenControl())
+      }}
       accessToken={mapboxConf.accessToken}
-      style={mapboxConf.style}
-      center={center}
-      zoom={mapboxConf.zoom}
-      workercount={100}
+      style={{
+        version: 8,
+        sources: {},
+        layers: []
+      }}
+      center={[115.787221, 28.085669]}
+      zoom={9}
+      workercount={32}
+      dragPan={false}
+      dragRotate={false}
+      scrollZoom={false}
+      minZoom={5}
+      maxZoom={16.5}
+      maxBounds={[
+        [114.46886162500175, 27.42943347819748],
+        [117.10558037500186, 28.737918082206676]
+      ]}
     >
-      <GeoJSONSource id="tiandi" option={{ data: data || url }}>
+      <LoadImage name="backimg" url={require('@/assets/fc/bg.png')}>
         <Layer
-          id="tiandi"
-          type="symbol"
-          source="tiandi"
-          layout={{
-            'icon-image': 'rocket-15'
+          id="background"
+          type="background"
+          paint={{
+            'background-pattern': 'backimg'
           }}
+          before="raster-layer"
         />
-      </GeoJSONSource>
+      </LoadImage>
+      <RasterSource
+        id="raster-tiles"
+        option={{
+          tiles: [
+            '//t0.tianditu.com/DataServer?T=img_w&X={x}&Y={y}&L={z}&tk=13f2b0b67c4a2dae4b847a7bbac3e845'
+          ],
+          tileSize: 256,
+          attribution: '国家基础地理信息中心'
+        }}
+      >
+        <Layer
+          id="raster-layer"
+          source="raster-tiles"
+          type="raster"
+          maxzoom={17}
+          minzoom={10}
+        />
+      </RasterSource>
+
+      <FCPolygon />
     </Map>
   )
 }
-export default IndexPageDemo
+export default Demo

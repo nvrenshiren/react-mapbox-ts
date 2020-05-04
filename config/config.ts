@@ -24,5 +24,8 @@ export default defineConfig({
       .options({
         name: 'static/[name]-[hash:8].[ext]'
       })
+  },
+  devServer: {
+    port: 8080
   }
 })

@@ -20,6 +20,7 @@ interface Props
   extends Omit<mapboxgl.MarkerOptions, 'element'>,
     Partial<MarkerEventList> {
   positon: LngLatLike
+  show?: boolean
   popup?: React.ReactNode
   popupOption?: mapboxgl.PopupOptions
   children?: React.ReactNode
@@ -32,7 +33,14 @@ const Marker = forwardRef<mapboxgl.Marker, Props>((props, ref) => {
   const currentPropsRef = useRef<Props>({ ...props })
   currentPropsRef.current = props
   const eventRef = useRef({})
-  const { children, positon, popup, popupOption, ...options } = props
+  const {
+    children,
+    positon,
+    show = true,
+    popup,
+    popupOption,
+    ...options
+  } = props
   const markerRef = useRef<mapboxgl.Marker>(
     new mapboxgl.Marker({
       ...options,
@@ -48,6 +56,10 @@ const Marker = forwardRef<mapboxgl.Marker, Props>((props, ref) => {
       markerRef.current,
       eventsMarker
     )
+    const didShowUpdate = currentProps.show !== prevProps.show
+    if (didShowUpdate)
+      markerRef.current[!!currentProps.show ? 'addTo' : 'remove'](map!)
+
     const didPositionUpdate = diffLngLat(
       markerRef.current.getLngLat(),
       currentProps.positon
@@ -67,7 +79,7 @@ const Marker = forwardRef<mapboxgl.Marker, Props>((props, ref) => {
   useEffect(() => {
     if (!isMounted.current) {
       isMounted.current = true
-      markerRef.current.addTo(map!)
+      markerRef.current[show ? 'addTo' : 'remove'](map!)
     } else {
       DidUpdate()
       prevPropsRef.current = { ...props }

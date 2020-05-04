@@ -6,7 +6,10 @@ export default () => {
   const mapRef = useRef()
   return (
     <Map
-      ref={mapRef}
+      // ref={mapRef}
+      ref={(map) => {
+        window.map = map
+      }}
       accessToken={mapboxConf.accessToken}
       style={mapboxConf.style}
       center={mapboxConf.center}

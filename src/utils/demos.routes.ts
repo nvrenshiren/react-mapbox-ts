@@ -45,6 +45,20 @@ export default {
         key: 'generatedIcon',
         code: raw('../demos/raws/demos.style.generatedIcon.raw'),
         des: 'Add an icon to the map that was generated at runtime.'
+      },
+      {
+        name: '动画图标',
+        key: 'animatedIcon',
+        code: raw('../demos/raws/demos.style.animatedIcon.raw'),
+        des:
+          'Add an animated icon to the map that was generated at runtime with a Canvas.'
+      },
+      {
+        name: '图片插入',
+        key: 'picIcon',
+        code: raw('../demos/raws/demos.style.picIcon.raw'),
+        des:
+          'Add an icon to the map from an external URL and use it in a symbol layer.'
       }
     ]
   },
@@ -52,12 +66,13 @@ export default {
     title: '图层',
     items: [
       {
-        name: '添加动画图标',
-        key: 'animatedIcon',
-        code: raw('../demos/raws/demos.style.animatedIcon.raw'),
+        name: '3D模型',
+        key: 'model3D',
+        code: raw('../demos/raws/demos.layers.model3D.raw'),
         des:
-          'Add an animated icon to the map that was generated at runtime with a Canvas.'
+          'Use a custom style layer with three.js to add a 3D model to the map.'
       },
+      ,
       {
         name: '文本样式',
         key: 'textStyle',
@@ -105,12 +120,6 @@ export default {
         des: 'Animate a line by updating a GeoJSON source on each frame.'
       },
       {
-        name: '图层颜色',
-        key: 'layerColor',
-        code: raw('../demos/raws/demos.layers.layerColor.raw'),
-        des: 'Using setPaintProperty to change a layers fill color.'
-      },
-      {
         name: '标签图层',
         key: 'labelsLayer',
         code: raw('../demos/raws/demos.layers.labelsLayer.raw'),
@@ -142,6 +151,13 @@ export default {
         des: 'Display HTML clusters with custom properties'
       },
       {
+        name: 'Style标注聚合',
+        key: 'styleClusters',
+        code: raw('../demos/raws/demos.layers.styleClusters.raw'),
+        des:
+          'Use Mapbox GL JS built-in functions to visualize points as clusters.'
+      },
+      {
         name: '三维建筑',
         key: 'buildings3D',
         code: raw('../demos/raws/demos.layers.buildings3D.raw'),
@@ -152,6 +168,12 @@ export default {
         key: 'bigDataCircles',
         code: raw('../demos/raws/demos.layers.bigDataCircles.raw'),
         des: 'Creating a visualization with a data expression for circle-color.'
+      },
+      {
+        name: '热力图',
+        key: 'heatmap',
+        code: raw('../demos/raws/demos.layers.heatmap.raw'),
+        des: 'Visualize earthquake frequency by location using a heatmap layer.'
       },
       {
         name: 'GeoJSON多边形',
@@ -171,6 +193,61 @@ export default {
         code: raw('../demos/raws/demos.layers.gradientLine.raw'),
         des:
           'Use the line-gradient paint property and an expression to visualize distance from the starting point of a line.'
+      },
+      {
+        name: '多图层叠加',
+        key: 'multipleGeometries',
+        code: raw('../demos/raws/demos.layers.multipleGeometries.raw'),
+        des: 'Add a polygon and circle layer from the same GeoJSON source.'
+      },
+      {
+        name: '动态实时数据',
+        key: 'realtime',
+        code: raw('../demos/raws/demos.layers.realtime.raw'),
+        des: 'Use realtime GeoJSON data streams to move a symbol on your map.'
+      }
+    ]
+  },
+  sources: {
+    title: '源',
+    items: [
+      {
+        name: '矢量平铺源',
+        key: 'vectortile',
+        code: raw('../demos/raws/demos.sources.vectortile.raw'),
+        des: 'Add a vector source to a map.'
+      },
+      {
+        name: '画布源',
+        key: 'canvas',
+        code: raw('../demos/raws/demos.sources.canvas.raw'),
+        des: 'Add a canvas source to the map.'
+      },
+      {
+        name: '图片源',
+        key: 'image',
+        code: raw('../demos/raws/demos.sources.image.raw'),
+        des: 'Dark vector baselayer with radar weather image overlay.'
+      },
+      {
+        name: '视频源',
+        key: 'video',
+        code: raw('../demos/raws/demos.sources.video.raw'),
+        des:
+          'Satellite raster baselayer with video on top. Click on the map to play and pause.'
+      },
+      {
+        name: 'WMS/WMTS源',
+        key: 'wmts',
+        code: raw('../demos/raws/demos.sources.wmts.raw'),
+        des: 'Adding an external Web Map Service layer to the map.'
+      },
+      {
+        name: '实时更新源',
+        key: 'realtimeUpdate',
+        code: raw('../demos/raws/demos.sources.realtimeUpdate.raw'),
+        des:
+          'Change an existing feature on your map in realtime by updating its data.'
       }
     ]
   }

@@ -13,6 +13,10 @@ export default () => {
   return (
     <div className="full">
       <Map
+        // ref={mapRef}
+        ref={(map) => {
+          window.map = map
+        }}
         accessToken={mapboxConf.accessToken}
         style={`mapbox://styles/mapbox/${style}`}
         center={mapboxConf.center}

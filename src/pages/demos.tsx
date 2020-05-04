@@ -1,14 +1,18 @@
-import demosRoutes from '@/utils/demos.routes'
 import LiveCode from '@/components/liveCode/live.code'
-import React, { useCallback, useMemo, useState } from 'react'
+import demosRoutes from '@/utils/demos.routes'
+import {
+  CodeOutlined,
+  StepBackwardOutlined,
+  StepForwardOutlined
+} from '@ant-design/icons'
 import { Button, Layout, Menu, PageHeader, Typography } from 'antd'
 import { ClickParam } from 'antd/lib/menu'
-import { CodeOutlined } from '@ant-design/icons'
+import React, { useCallback, useMemo, useState } from 'react'
 import { dynamic } from 'umi'
 import './demos.less'
 
 const { Sider, Content } = Layout
-const { Item, ItemGroup } = Menu
+const { Item, SubMenu } = Menu
 const { Title } = Typography
 
 const DemosPage: React.FC = () => {
@@ -16,10 +20,11 @@ const DemosPage: React.FC = () => {
   const [inlineCollapsed, setInlineCollapsed] = useState(false)
   const [viewCode, setViewCode] = useState(false)
   const [group, name] = useMemo(() => key.split('-'), [key])
-  const menuItem = useMemo(
-    () => demosRoutes[group].items.find((item) => item.key === name),
-    [key]
-  )
+
+  const menuItem = useMemo(() => {
+    return demosRoutes[group].items.find((item) => item?.key === name)
+  }, [key])
+
   const dynamicComponent = useCallback(() => {
     return dynamic({
       loader: () => import(`@/demos/demos.${group}.${name}`),
@@ -32,10 +37,16 @@ const DemosPage: React.FC = () => {
     setViewCode(false)
   }, [])
   const inlineClick = useCallback(() => {
+    setTimeout(() => {
+      window.map.resize()
+    }, 300)
     setInlineCollapsed(!inlineCollapsed)
   }, [inlineCollapsed])
   const viewCodeClick = useCallback(() => {
     setViewCode(!viewCode)
+    setTimeout(() => {
+      window.map.resize()
+    }, 300)
   }, [viewCode])
   const PreviewComponent = useMemo(() => dynamicComponent(), [key])
   return (
@@ -45,18 +56,20 @@ const DemosPage: React.FC = () => {
         className="menu-side"
         width={inlineCollapsed ? 0 : 300}
       >
-        <Menu mode="inline" selectedKeys={[key]} onClick={MenuClick}>
+        <Menu
+          mode="inline"
+          selectedKeys={[key]}
+          onClick={MenuClick}
+          defaultOpenKeys={['style-group']}
+        >
           {Object.keys(demosRoutes).map((name) => {
             const menu = demosRoutes[name]
             return (
-              <ItemGroup
-                key={`${name}-group`}
-                title={<Title level={4}>{menu.title}</Title>}
-              >
+              <SubMenu key={`${name}-group`} title={menu.title}>
                 {menu.items.map((item) => {
                   return <Item key={`${name}-${item.key}`}>{item.name}</Item>
                 })}
-              </ItemGroup>
+              </SubMenu>
             )
           })}
         </Menu>
@@ -64,6 +77,13 @@ const DemosPage: React.FC = () => {
       <Content className="demos-content-wrap">
         <div className="demos-content">
           <PageHeader
+            backIcon={
+              inlineCollapsed ? (
+                <StepForwardOutlined />
+              ) : (
+                <StepBackwardOutlined />
+              )
+            }
             className="content-header"
             onBack={inlineClick}
             title={menuItem.name}
