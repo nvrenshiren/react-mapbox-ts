@@ -60,7 +60,6 @@ const Demo: React.FC = () => {
           minzoom={10}
         />
       </RasterSource>
-
       <FCPolygon />
     </Map>
   )
