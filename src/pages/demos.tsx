@@ -3,7 +3,8 @@ import demosRoutes from '@/utils/demos.routes'
 import {
   CodeOutlined,
   StepBackwardOutlined,
-  StepForwardOutlined
+  StepForwardOutlined,
+  CodeSandboxOutlined
 } from '@ant-design/icons'
 import { Button, Layout, Menu, PageHeader, Typography } from 'antd'
 import { ClickParam } from 'antd/lib/menu'
@@ -89,13 +90,23 @@ const DemosPage: React.FC = () => {
             title={menuItem.name}
             subTitle={menuItem.des}
             extra={
-              <Button
-                type="link"
-                icon={<CodeOutlined />}
-                onClick={viewCodeClick}
-              >
-                {viewCode ? '隐藏' : '显示'}代码
-              </Button>
+              <>
+                <Button
+                  type="link"
+                  icon={<CodeOutlined />}
+                  onClick={viewCodeClick}
+                >
+                  {viewCode ? '隐藏' : '显示'}代码
+                </Button>
+                <Button
+                  hidden={!menuItem.sanbox}
+                  type="link"
+                  icon={<CodeSandboxOutlined />}
+                  href={menuItem.sanbox}
+                >
+                  编辑代码
+                </Button>
+              </>
             }
           />
           <div className="demos-live">

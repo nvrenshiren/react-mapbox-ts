@@ -26,7 +26,9 @@ export default () => {
         </div>
       </Marker>
       <Marker draggable positon={[114.365248, 30.53786]}>
-        <Button type="danger">可拖动</Button>
+        <Button type="primary" danger>
+          可拖动
+        </Button>
       </Marker>
       <Marker
         positon={[114.352309, 30.518589]}

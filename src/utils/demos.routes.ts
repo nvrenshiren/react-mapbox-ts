@@ -4,6 +4,7 @@ interface DemoItem {
   key: string
   code: string
   des: string
+  sanbox?: string
 }
 interface DemoRoute {
   [key: string]: {
@@ -19,46 +20,53 @@ export default {
         name: '地图',
         key: 'map',
         code: raw('../demos/raws/demos.style.map.raw'),
-        des: 'Display a map'
+        des: 'Display a map',
+        sanbox: 'https://codesandbox.io/s/ditu-tm8y0'
       },
       {
         name: '地图标注',
         key: 'marker',
         code: raw('../demos/raws/demos.style.marker.raw'),
-        des: 'Add a default Marker to the map.'
+        des: 'Add a default Marker to the map.',
+        sanbox: 'https://codesandbox.io/s/ditubiaozhu-vm01w'
       },
       {
         name: '渲染世界副本',
         key: 'worldCopies',
         code: raw('../demos/raws/demos.style.worldCopies.raw'),
         des:
-          'Toggle between rendering a single world and multiple copies of the world.'
+          'Toggle between rendering a single world and multiple copies of the world.',
+        sanbox: 'https://codesandbox.io/s/ditufuben-d9olj'
       },
       {
         name: '更改样式',
         key: 'changeStyle',
         code: raw('../demos/raws/demos.style.changeStyle.raw'),
-        des: 'Switch to another map style'
+        des: 'Switch to another map style',
+        sanbox: 'https://codesandbox.io/s/dituyangshi-dgdd8'
       },
       {
         name: '生成图标',
         key: 'generatedIcon',
         code: raw('../demos/raws/demos.style.generatedIcon.raw'),
-        des: 'Add an icon to the map that was generated at runtime.'
+        des: 'Add an icon to the map that was generated at runtime.',
+        sanbox: 'https://codesandbox.io/s/shengchengtupian-t692w'
       },
       {
         name: '动画图标',
         key: 'animatedIcon',
         code: raw('../demos/raws/demos.style.animatedIcon.raw'),
         des:
-          'Add an animated icon to the map that was generated at runtime with a Canvas.'
+          'Add an animated icon to the map that was generated at runtime with a Canvas.',
+        sanbox: 'https://codesandbox.io/s/tianjiadonghuatupian-bv2vl'
       },
       {
         name: '图片插入',
         key: 'picIcon',
         code: raw('../demos/raws/demos.style.picIcon.raw'),
         des:
-          'Add an icon to the map from an external URL and use it in a symbol layer.'
+          'Add an icon to the map from an external URL and use it in a symbol layer.',
+        sanbox: 'https://codesandbox.io/s/tianjiatupian-lry4d'
       }
     ]
   },
