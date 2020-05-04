@@ -10,7 +10,6 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
-      // "react-mapbox-ts": ["react-mapbox-ts/src/index"]
     },
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
