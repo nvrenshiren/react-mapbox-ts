@@ -1,35 +1,67 @@
-import React, { useRef, useEffect } from 'react'
-import { Map, Layer } from 'react-mapbox-ts'
+import '@/assets/fc/fc.less'
 import mapboxConf from '@/assets/mapbox.conf'
-import { ResterDemSource } from 'react-mapbox-ts'
+import FCPolygon from '@/fc/polygon'
+import mapboxgl from 'mapbox-gl'
+import React, { useRef } from 'react'
+import { Layer, LoadImage, Map, RasterSource } from 'react-mapbox-ts'
 const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map>()
-  useEffect(() => {}, [])
   return (
     <Map
       // ref={mapRef}
       ref={(map) => {
         window.map = map
+        map.addControl(new mapboxgl.FullscreenControl())
       }}
       accessToken={mapboxConf.accessToken}
-      style="mapbox://styles/mapbox/cjaudgl840gn32rnrepcb9b9g"
-      center={[-119.5591, 37.715]}
+      style={{
+        version: 8,
+        sources: {},
+        layers: []
+      }}
+      center={[115.787221, 28.085669]}
       zoom={9}
-      workercount={100}
+      workercount={32}
+      dragPan={false}
+      dragRotate={false}
+      scrollZoom={false}
+      minZoom={5}
+      maxZoom={16.5}
+      maxBounds={[
+        [114.46886162500175, 27.42943347819748],
+        [117.10558037500186, 28.737918082206676]
+      ]}
     >
-      <ResterDemSource
-        id="dem"
+      <LoadImage name="backimg" url={require('@/assets/fc/bg.png')}>
+        <Layer
+          id="background"
+          type="background"
+          paint={{
+            'background-pattern': 'backimg'
+          }}
+          before="raster-layer"
+        />
+      </LoadImage>
+      <RasterSource
+        id="raster-tiles"
         option={{
-          url: 'mapbox://mapbox.terrain-rgb'
+          tiles: [
+            '//t0.tianditu.com/DataServer?T=img_w&X={x}&Y={y}&L={z}&tk=13f2b0b67c4a2dae4b847a7bbac3e845'
+          ],
+          tileSize: 256,
+          attribution: '国家基础地理信息中心'
         }}
       >
         <Layer
-          id="hillshading"
-          source="dem"
-          type="hillshade"
-          before="waterway-river-canal-shadow"
+          id="raster-layer"
+          source="raster-tiles"
+          type="raster"
+          maxzoom={17}
+          minzoom={10}
         />
-      </ResterDemSource>
+      </RasterSource>
+
+      <FCPolygon />
     </Map>
   )
 }

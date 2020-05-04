@@ -3,13 +3,7 @@ import mapboxConf from '@/assets/mapbox.conf'
 import FCPolygon from '@/fc/polygon'
 import mapboxgl from 'mapbox-gl'
 import React, { useRef } from 'react'
-import {
-  Layer,
-  LoadImage,
-  Map,
-  RasterSource,
-  GeoJSONSource
-} from 'react-mapbox-ts'
+import { Layer, LoadImage, Map, RasterSource } from 'react-mapbox-ts'
 const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map>()
   return (
