@@ -48,6 +48,7 @@ const Demo: React.FC = () => {
       ref={(map) => {
         window.map = map
         mapRef.current = map
+        animate()
       }}
       onClick={onClick}
       accessToken={mapboxConf.accessToken}
