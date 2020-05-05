@@ -12,7 +12,4 @@
 .DS_Store
 
 # umi
-/src/**/*
-/react-mapbox-ts/**/*
-/config/*
-/scripts/*
+/src/.umi/**/*
