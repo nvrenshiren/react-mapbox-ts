@@ -103,6 +103,7 @@ const DemosPage: React.FC = () => {
                   type="link"
                   icon={<CodeSandboxOutlined />}
                   href={menuItem.sanbox}
+                  target="_blank"
                 >
                   编辑代码
                 </Button>

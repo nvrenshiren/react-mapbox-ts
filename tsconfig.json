@@ -9,7 +9,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
+      "@@/*": ["src/.umi/*"],
+      "react-mapbox-ts": ["./react-mapbox-ts/src"]
     },
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
@@ -22,5 +23,5 @@
     "suppressImplicitAnyIndexErrors": true,
     "strict": false
   },
-  "exclude": ["node_modules", "react-mapbox-ts"]
+  "exclude": ["node_modules"]
 }

@@ -1,5 +1,4 @@
 {
-  "private": true,
   "scripts": {
     "start": "npm run raw-build && umi dev",
     "build": "npm run raw-build && umi build",
@@ -12,7 +11,6 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-live": "^2.2.2",
-    "react-mapbox-ts": "^1.0.10",
     "react-markdown": "^4.3.1",
     "react-svg": "^11.0.20",
     "three": "^0.116.1",
