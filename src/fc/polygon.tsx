@@ -74,29 +74,9 @@ const FCPolygon: React.FC = () => {
         zoom: 13,
         pitch: 60
       })
-      map.dragPan.enable()
-      map.dragRotate.enable()
-      map.scrollZoom.enable()
     }
   }, [])
-  const zoomChange = useCallback(() => {
-    if (map.getZoom() < 10) {
-      map.flyTo({
-        center: [115.805, 28.079],
-        zoom: 9,
-        pitch: 0,
-        bearing: 0
-      })
-      map.dragPan.disable()
-      map.dragRotate.disable()
-      map.scrollZoom.disable()
-    }
-  }, [])
-  useEffect(() => {
-    map.on('zoomend', () => {
-      zoomChange()
-    })
-  }, [])
+
   return (
     <>
       <GeoJSONSource
@@ -144,48 +124,50 @@ const FCPolygon: React.FC = () => {
             ]
           }}
         />
-      </GeoJSONSource>
-      <LoadImage name="png2d" url={require('@/assets/fc/2d.png')}>
-        <GeoJSONSource
-          id="png2d-positon"
-          option={{
-            data: {
-              type: 'FeatureCollection',
-              features: [
-                {
-                  type: 'Feature',
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [115.805, 28.079]
+        <LoadImage name="png2d" url={require('@/assets/fc/2d.png')}>
+          <GeoJSONSource
+            id="png2d-positon"
+            option={{
+              data: {
+                type: 'FeatureCollection',
+                features: [
+                  {
+                    type: 'Feature',
+                    geometry: {
+                      type: 'Point',
+                      coordinates: [115.805, 28.079]
+                    }
                   }
-                }
-              ]
-            }
-          }}
-        >
-          <Layer
-            id="png2d-img"
-            type="symbol"
-            source="png2d-positon"
-            layout={{
-              'icon-image': 'png2d',
-              'icon-size': 1
+                ]
+              }
             }}
-            paint={{
-              'icon-opacity': [
-                'interpolate',
-                ['exponential', 0.5],
-                ['zoom'],
-                9,
-                1,
-                10,
-                0
-              ]
-            }}
-            before="area"
-          />
-        </GeoJSONSource>
-      </LoadImage>
+          >
+            <Layer
+              id="png2d-img"
+              type="symbol"
+              source="png2d-positon"
+              layout={{
+                'icon-image': 'png2d',
+                'icon-size': 1,
+                'icon-pitch-alignment': 'map',
+                'icon-rotation-alignment': 'map'
+              }}
+              paint={{
+                'icon-opacity': [
+                  'interpolate',
+                  ['exponential', 0.5],
+                  ['zoom'],
+                  9,
+                  1,
+                  10,
+                  0
+                ]
+              }}
+              before="area"
+            />
+          </GeoJSONSource>
+        </LoadImage>
+      </GeoJSONSource>
     </>
   )
 }
