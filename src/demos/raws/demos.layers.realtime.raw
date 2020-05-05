@@ -1,8 +1,7 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react'
-import { Map, GeoJSONSource, Layer } from 'react-mapbox-ts'
 import mapboxConf from '@/assets/mapbox.conf'
-import { request } from 'umi'
 import { LngLatLike } from 'mapbox-gl'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { GeoJSONSource, Layer, Map } from 'react-mapbox-ts'
 
 interface DataParams {
   data: any
@@ -27,13 +26,15 @@ const Demo: React.FC = () => {
     }
   }, [])
   const WsetInterval = useCallback(() => {
-    request(url, { method: 'get' }).then((res) => {
-      setData({
-        data: res,
-        center: res.geometry.coordinates,
-        size: Math.random() * 10 + 1
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setData({
+          data: data,
+          center: data.geometry.coordinates,
+          size: Math.random() * 10 + 1
+        })
       })
-    })
   }, [])
   return (
     <Map

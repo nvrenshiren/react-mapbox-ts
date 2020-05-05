@@ -5,7 +5,6 @@ import { GeoJSONSource, Layer, Map } from 'react-mapbox-ts'
 
 const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.MapBoxPlus>()
-  let animation = useRef<number>().current
   const [data, setData] = useState<any>()
   const radius = 20
   const pointOnCircle = useCallback((angle: number) => {

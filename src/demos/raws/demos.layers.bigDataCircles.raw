@@ -35,8 +35,6 @@ const Demo: React.FC = () => {
                 [22, 180]
               ]
             },
-            // color circles by ethnicity, using a match expression
-            // https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-match
             'circle-color': [
               'match',
               ['get', 'ethnicity'],
@@ -48,7 +46,7 @@ const Demo: React.FC = () => {
               '#e55e5e',
               'Asian',
               '#3bb2d0',
-              /* other */ '#ccc'
+              '#ccc'
             ]
           }}
         />

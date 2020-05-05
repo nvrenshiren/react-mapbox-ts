@@ -5,40 +5,40 @@ import { Map, GeoJSONSource, Layer } from 'react-mapbox-ts'
 
 const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.MapBoxPlus>()
-  let animation = useRef<number>().current
+  const animation = useRef<number>()
   const [data, setData] = useState<any>([[0, 0]])
-  let dataRef = useRef([[0, 0]]).current
-  let resetTime = useRef(false).current
-  let startTime = useRef(0).current
-  let progress = useRef(0).current
+  const dataRef = useRef([[0, 0]])
+  const resetTime = useRef(false)
+  const startTime = useRef(0)
+  const progress = useRef(0)
   const animate = useCallback(() => {
     const speedFactor = 30
     function animateLine(timestamp?: number) {
-      if (resetTime) {
-        startTime = performance.now() - progress
-        resetTime = false
+      if (resetTime.current) {
+        startTime.current = performance.now() - progress.current
+        resetTime.current = false
       } else {
-        progress = timestamp - startTime
+        progress.current = timestamp - startTime.current
       }
-      if (progress > speedFactor * 360) {
-        startTime = timestamp
-        dataRef = []
+      if (progress.current > speedFactor * 360) {
+        startTime.current = timestamp
+        dataRef.current = []
       } else {
-        var x = progress / speedFactor
+        var x = progress.current / speedFactor
         var y = Math.sin((x * Math.PI) / 90) * 40
-        dataRef.push([x, y])
-        setData([...dataRef])
+        dataRef.current.push([x, y])
+        setData([...dataRef.current])
       }
-      animation = requestAnimationFrame(animateLine)
+      animation.current = requestAnimationFrame(animateLine)
     }
     animateLine()
   }, [])
   const onClick = useCallback(() => {
-    if (animation) {
-      cancelAnimationFrame(animation)
-      animation = null
+    if (animation.current) {
+      cancelAnimationFrame(animation.current)
+      animation.current = null
     } else {
-      resetTime = true
+      resetTime.current = true
       animate()
     }
   }, [])
@@ -48,6 +48,9 @@ const Demo: React.FC = () => {
       ref={(map) => {
         window.map = map
         mapRef.current = map
+      }}
+      onLoad={() => {
+        startTime.current = performance.now()
         animate()
       }}
       onClick={onClick}

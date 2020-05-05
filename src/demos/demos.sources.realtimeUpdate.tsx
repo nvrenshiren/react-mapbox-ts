@@ -1,7 +1,6 @@
 import mapboxConf from '@/assets/mapbox.conf'
 import React, { useEffect, useRef, useState } from 'react'
 import { GeoJSONSource, Layer, Map } from 'react-mapbox-ts'
-import { request } from 'umi'
 
 const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map>()
@@ -25,16 +24,16 @@ const Demo: React.FC = () => {
   }, [data])
 
   useEffect(() => {
-    request('https://docs.mapbox.com/mapbox-gl-js/assets/hike.geojson').then(
-      (res) => {
-        allAata.current = res.features[0].geometry.coordinates
-        res.features[0].geometry.coordinates = [allAata.current[0]]
-        setData(res)
+    fetch('https://docs.mapbox.com/mapbox-gl-js/assets/hike.geojson')
+      .then((res) => res.json())
+      .then((data) => {
+        allAata.current = data.features[0].geometry.coordinates
+        data.features[0].geometry.coordinates = [allAata.current[0]]
+        setData(data)
         mapRef.current
           .jumpTo({ center: allAata.current[0], zoom: 14 })
           .setPitch(30)
-      }
-    )
+      })
     return () => {
       clearInterval(aniRef.current)
     }

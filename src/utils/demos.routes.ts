@@ -78,7 +78,8 @@ export default {
         key: 'model3D',
         code: raw('../demos/raws/demos.layers.model3D.raw'),
         des:
-          'Use a custom style layer with three.js to add a 3D model to the map.'
+          'Use a custom style layer with three.js to add a 3D model to the map.',
+        sanbox: 'https://codesandbox.io/s/3dmoxing-h8bms'
       },
       ,
       {
@@ -106,14 +107,16 @@ export default {
         key: 'pointAnimate',
         code: raw('../demos/raws/demos.layers.pointAnimate.raw'),
         des:
-          'Animate the position of a point by updating a GeoJSON source on each frame.'
+          'Animate the position of a point by updating a GeoJSON source on each frame.',
+        sanbox: 'https://codesandbox.io/s/diandonghua-xpkwl'
       },
       {
         name: '图层透明度',
         key: 'opacityLayer',
         code: raw('../demos/raws/demos.layers.opacityLayer.raw'),
         des:
-          'Drag the range slider to adjust the opacity of a raster layer on top of a map.'
+          'Drag the range slider to adjust the opacity of a raster layer on top of a map.',
+        sanbox: 'https://codesandbox.io/s/tucengtoumingdu-yie0w'
       },
       {
         name: 'GeoJSON线',
@@ -125,7 +128,8 @@ export default {
         name: '线动画',
         key: 'lineAnimate',
         code: raw('../demos/raws/demos.layers.lineAnimate.raw'),
-        des: 'Animate a line by updating a GeoJSON source on each frame.'
+        des: 'Animate a line by updating a GeoJSON source on each frame.',
+        sanbox: 'https://codesandbox.io/s/xiandonghua-5ljy5'
       },
       {
         name: '标签图层',
@@ -138,7 +142,8 @@ export default {
         key: 'indoor3D',
         code: raw('../demos/raws/demos.layers.indoor3D.raw'),
         des:
-          'Create a 3D indoor map with the fill-extrude-height paint property.'
+          'Create a 3D indoor map with the fill-extrude-height paint property.',
+        sanbox: 'https://codesandbox.io/s/sanweishinei-82gtg'
       },
       {
         name: 'Gif图片',
@@ -156,32 +161,39 @@ export default {
         name: 'HTML标注聚合',
         key: 'clusters',
         code: raw('../demos/raws/demos.layers.clusters.raw'),
-        des: 'Display HTML clusters with custom properties'
+        des: 'Display HTML clusters with custom properties',
+        sanbox: 'https://codesandbox.io/s/htmljuhe-72q9z'
       },
       {
         name: 'Style标注聚合',
         key: 'styleClusters',
         code: raw('../demos/raws/demos.layers.styleClusters.raw'),
         des:
-          'Use Mapbox GL JS built-in functions to visualize points as clusters.'
+          'Use Mapbox GL JS built-in functions to visualize points as clusters.',
+        sanbox: 'https://codesandbox.io/s/stylejuhe-sxu7z'
       },
       {
         name: '三维建筑',
         key: 'buildings3D',
         code: raw('../demos/raws/demos.layers.buildings3D.raw'),
-        des: 'Use extrusions to display buildings height in 3D.'
+        des: 'Use extrusions to display buildings height in 3D.',
+        sanbox: 'https://codesandbox.io/s/3djianzhu-1tyyn'
       },
       {
         name: '大数据渲染',
         key: 'bigDataCircles',
         code: raw('../demos/raws/demos.layers.bigDataCircles.raw'),
-        des: 'Creating a visualization with a data expression for circle-color.'
+        des:
+          'Creating a visualization with a data expression for circle-color.',
+        sanbox: 'https://codesandbox.io/s/dashujujuhe-hsvdw'
       },
       {
         name: '热力图',
         key: 'heatmap',
         code: raw('../demos/raws/demos.layers.heatmap.raw'),
-        des: 'Visualize earthquake frequency by location using a heatmap layer.'
+        des:
+          'Visualize earthquake frequency by location using a heatmap layer.',
+        sanbox: 'https://codesandbox.io/s/relitu-ouqvc'
       },
       {
         name: 'GeoJSON多边形',
@@ -193,7 +205,8 @@ export default {
         name: '地形阴影',
         key: 'hillshading',
         code: raw('../demos/raws/demos.layers.hillshading.raw'),
-        des: 'Adds raster hillshading to a map.'
+        des: 'Adds raster hillshading to a map.',
+        sanbox: 'https://codesandbox.io/s/dixingyinying-pqjlw'
       },
       {
         name: '渐变线',
@@ -206,13 +219,15 @@ export default {
         name: '多图层叠加',
         key: 'multipleGeometries',
         code: raw('../demos/raws/demos.layers.multipleGeometries.raw'),
-        des: 'Add a polygon and circle layer from the same GeoJSON source.'
+        des: 'Add a polygon and circle layer from the same GeoJSON source.',
+        sanbox: 'https://codesandbox.io/s/duotuceng-te0wh'
       },
       {
         name: '动态实时数据',
         key: 'realtime',
         code: raw('../demos/raws/demos.layers.realtime.raw'),
-        des: 'Use realtime GeoJSON data streams to move a symbol on your map.'
+        des: 'Use realtime GeoJSON data streams to move a symbol on your map.',
+        sanbox: 'https://codesandbox.io/s/dongtaishuaxin-pnx4h'
       }
     ]
   },
@@ -223,39 +238,45 @@ export default {
         name: '矢量平铺源',
         key: 'vectortile',
         code: raw('../demos/raws/demos.sources.vectortile.raw'),
-        des: 'Add a vector source to a map.'
+        des: 'Add a vector source to a map.',
+        sanbox: 'https://codesandbox.io/s/vectorsource-lioqj'
       },
       {
         name: '画布源',
         key: 'canvas',
         code: raw('../demos/raws/demos.sources.canvas.raw'),
-        des: 'Add a canvas source to the map.'
+        des: 'Add a canvas source to the map.',
+        sanbox: 'https://codesandbox.io/s/canvassource-0qkyo'
       },
       {
         name: '图片源',
         key: 'image',
         code: raw('../demos/raws/demos.sources.image.raw'),
-        des: 'Dark vector baselayer with radar weather image overlay.'
+        des: 'Dark vector baselayer with radar weather image overlay.',
+        sanbox: 'https://codesandbox.io/s/imagesources-se7l1'
       },
       {
         name: '视频源',
         key: 'video',
         code: raw('../demos/raws/demos.sources.video.raw'),
         des:
-          'Satellite raster baselayer with video on top. Click on the map to play and pause.'
+          'Satellite raster baselayer with video on top. Click on the map to play and pause.',
+        sanbox: 'https://codesandbox.io/s/videosource-h6ji9'
       },
       {
         name: 'WMS/WMTS源',
         key: 'wmts',
         code: raw('../demos/raws/demos.sources.wmts.raw'),
-        des: 'Adding an external Web Map Service layer to the map.'
+        des: 'Adding an external Web Map Service layer to the map.',
+        sanbox: 'https://codesandbox.io/s/rastersource-603n2'
       },
       {
         name: '实时更新源',
         key: 'realtimeUpdate',
         code: raw('../demos/raws/demos.sources.realtimeUpdate.raw'),
         des:
-          'Change an existing feature on your map in realtime by updating its data.'
+          'Change an existing feature on your map in realtime by updating its data.',
+        sanbox: 'https://codesandbox.io/s/shishigengxinyuan-e11hb'
       }
     ]
   }

@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react'
-import { Map, VectorSource, Layer, GeoJSONSource } from 'react-mapbox-ts'
 import mapboxConf from '@/assets/mapbox.conf'
+import React, { useEffect, useRef } from 'react'
+import { GeoJSONSource, Layer, Map } from 'react-mapbox-ts'
 const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map>()
   useEffect(() => {}, [])
