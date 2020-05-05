@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useMemo } from 'react'
-import { Map, AddImage, GeoJSONSource, Layer } from 'react-mapbox-ts'
 import mapboxConf from '@/assets/mapbox.conf'
+import React, { useMemo, useRef } from 'react'
+import { AddImage, GeoJSONSource, Layer, Map } from 'react-mapbox-ts'
 const Demo: React.FC = () => {
   const mapRef = useRef<mapboxgl.Map>()
   const width = 64

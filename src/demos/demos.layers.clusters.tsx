@@ -145,6 +145,7 @@ const Demo: React.FC = () => {
       onData={updateMarkers}
       onMove={updateMarkers}
       onMoveEnd={updateMarkers}
+      workercount={32}
     >
       {Object.keys(markersOnScreen).map((key) => {
         return (

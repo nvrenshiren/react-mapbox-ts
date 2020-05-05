@@ -9,9 +9,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "react-mapbox-ts": ["./react-mapbox-ts/src"]
+      "@@/*": ["src/.umi/*"]
     },
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "emitDecoratorMetadata": true,
