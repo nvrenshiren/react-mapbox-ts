@@ -81,14 +81,6 @@ export default {
           'Use a custom style layer with three.js to add a 3D model to the map.',
         sanbox: 'https://codesandbox.io/s/3dmoxing-h8bms'
       },
-      ,
-      {
-        name: '文本样式',
-        key: 'textStyle',
-        code: raw('../demos/raws/demos.layers.textStyle.raw'),
-        des:
-          'Uses the format expression to display country labels in both English and in the local language.'
-      },
       {
         name: '图片渲染多边形',
         key: 'polygonPic',
@@ -96,12 +88,7 @@ export default {
         des:
           'Use fill-pattern to draw a polygon from a repeating image pattern.'
       },
-      {
-        name: 'GeoJSON点',
-        key: 'pointGeoJSON',
-        code: raw('../demos/raws/demos.layers.pointGeoJSON.raw'),
-        des: 'Draw points from a GeoJSON collection to a map.'
-      },
+
       {
         name: '点动画',
         key: 'pointAnimate',
@@ -131,12 +118,7 @@ export default {
         des: 'Animate a line by updating a GeoJSON source on each frame.',
         sanbox: 'https://codesandbox.io/s/xiandonghua-5ljy5'
       },
-      {
-        name: '标签图层',
-        key: 'labelsLayer',
-        code: raw('../demos/raws/demos.layers.labelsLayer.raw'),
-        des: 'Using the second argument of addLayer, you can be more precise.'
-      },
+
       {
         name: '三维室内',
         key: 'indoor3D',
@@ -145,18 +127,7 @@ export default {
           'Create a 3D indoor map with the fill-extrude-height paint property.',
         sanbox: 'https://codesandbox.io/s/sanweishinei-82gtg'
       },
-      {
-        name: 'Gif图片',
-        key: 'gifPic',
-        code: raw('../demos/raws/demos.layers.gifPic.raw'),
-        des: 'Use a series of image sources to create an animation.'
-      },
-      {
-        name: '自定义图层',
-        key: 'customLayer',
-        code: raw('../demos/raws/demos.layers.customLayer.raw'),
-        des: 'Use a custom style layer to render custom WebGL content.'
-      },
+
       {
         name: 'HTML标注聚合',
         key: 'clusters',
@@ -195,12 +166,7 @@ export default {
           'Visualize earthquake frequency by location using a heatmap layer.',
         sanbox: 'https://codesandbox.io/s/relitu-ouqvc'
       },
-      {
-        name: 'GeoJSON多边形',
-        key: 'polygonGeoJSON',
-        code: raw('../demos/raws/demos.layers.polygonGeoJSON.raw'),
-        des: 'Style a polygon with the fill layer type.'
-      },
+
       {
         name: '地形阴影',
         key: 'hillshading',
@@ -277,6 +243,35 @@ export default {
         des:
           'Change an existing feature on your map in realtime by updating its data.',
         sanbox: 'https://codesandbox.io/s/shishigengxinyuan-e11hb'
+      }
+    ]
+  },
+  interaction: {
+    title: '交互',
+    items: [
+      {
+        name: '自定义动画',
+        key: 'customizeAnimations',
+        code: raw('../demos/raws/demos.interaction.customizeAnimations.raw'),
+        des: 'Customize camera animations using AnimationOptions.'
+      },
+      {
+        name: '点拖动',
+        key: 'draggablePoint',
+        code: raw('../demos/raws/demos.interaction.draggablePoint.raw'),
+        des: 'Customize camera animations using AnimationOptions.'
+      },
+      {
+        name: '过滤标识',
+        key: 'filterSymbols',
+        code: raw('../demos/raws/demos.interaction.filterSymbols.raw'),
+        des: 'Customize camera animations using AnimationOptions.'
+      },
+      {
+        name: '功能开关',
+        key: 'toggle',
+        code: raw('../demos/raws/demos.interaction.toggle.raw'),
+        des: 'Customize camera animations using AnimationOptions.'
       }
     ]
   }

@@ -12,20 +12,6 @@ interface wmsItem {
 }
 
 export default {
-  tiandi: {
-    name: '天地图',
-    tiles: [
-      '//t0.tianditu.com/DataServer?T=img_w&X={x}&Y={y}&L={z}&tk=b03e859b754a2528f0690d31f919d6c8'
-    ],
-    attribution: '国家基础地理信息中心',
-    maxzoom: 17,
-    minzoom: 5
-  },
-  openstreetmap: {
-    name: 'OpenStreetMap',
-    tiles: ['https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}.png'],
-    attribution: 'OpenStreetMap'
-  },
   fastly: {
     name: 'Fastly',
     tiles: ['https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg'],

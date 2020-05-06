@@ -38,7 +38,6 @@ const Demo: React.FC = () => {
           }}
         />
       </LoadImage>
-
       <FCPolygon />
     </Map>
   )

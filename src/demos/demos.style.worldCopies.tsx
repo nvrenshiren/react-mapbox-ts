@@ -22,7 +22,7 @@ export default () => {
         center={mapboxConf.center}
         zoom={mapboxConf.zoom}
       />
-      <div style={{ position: 'absolute', top: 8 }}>
+      <div style={{ position: 'absolute', top: 0 }}>
         <Radio.Group
           defaultValue={defaultValue}
           onChange={ValueChange}

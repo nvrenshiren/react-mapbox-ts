@@ -44,7 +44,7 @@ const Demo: React.FC = () => {
           />
         </RasterSource>
       </Map>
-      <div style={{ position: 'absolute', top: 15, width: '60%', left: '20%' }}>
+      <div style={{ position: 'absolute', top: 16, width: '60%', left: '20%' }}>
         <Slider
           min={0}
           max={100}

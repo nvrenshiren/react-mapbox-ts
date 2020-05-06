@@ -41,7 +41,7 @@ export default () => {
           <Layer id="raster-layer" source="raster-tiles" type="raster" />
         </RasterSource>
       </Map>
-      <div style={{ position: 'absolute', top: 8 }}>
+      <div style={{ position: 'absolute', top: 0 }}>
         <Radio.Group
           defaultValue={0}
           onChange={StyleChange}
