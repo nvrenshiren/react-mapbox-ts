@@ -124,50 +124,50 @@ const FCPolygon: React.FC = () => {
             ]
           }}
         />
-        <LoadImage name="png2d" url={require('@/assets/fc/2d.png')}>
-          <GeoJSONSource
-            id="png2d-positon"
-            option={{
-              data: {
-                type: 'FeatureCollection',
-                features: [
-                  {
-                    type: 'Feature',
-                    geometry: {
-                      type: 'Point',
-                      coordinates: [115.805, 28.079]
-                    }
-                  }
-                ]
-              }
-            }}
-          >
-            <Layer
-              id="png2d-img"
-              type="symbol"
-              source="png2d-positon"
-              layout={{
-                'icon-image': 'png2d',
-                'icon-size': 1,
-                'icon-pitch-alignment': 'map',
-                'icon-rotation-alignment': 'map'
-              }}
-              paint={{
-                'icon-opacity': [
-                  'interpolate',
-                  ['exponential', 0.5],
-                  ['zoom'],
-                  9,
-                  1,
-                  10,
-                  0
-                ]
-              }}
-              before="area"
-            />
-          </GeoJSONSource>
-        </LoadImage>
       </GeoJSONSource>
+      <LoadImage name="png2d" url={require('@/assets/fc/2d.png')}>
+        <GeoJSONSource
+          id="png2d-positon"
+          option={{
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [115.805, 28.079]
+                  }
+                }
+              ]
+            }
+          }}
+        >
+          <Layer
+            id="png2d-img"
+            type="symbol"
+            source="png2d-positon"
+            layout={{
+              'icon-image': 'png2d',
+              'icon-size': 1,
+              'icon-pitch-alignment': 'map',
+              'icon-rotation-alignment': 'map'
+            }}
+            paint={{
+              'icon-opacity': [
+                'interpolate',
+                ['exponential', 0.5],
+                ['zoom'],
+                9,
+                1,
+                10,
+                0
+              ]
+            }}
+            before="area"
+          />
+        </GeoJSONSource>
+      </LoadImage>
     </>
   )
 }

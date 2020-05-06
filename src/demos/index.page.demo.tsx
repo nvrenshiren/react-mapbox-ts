@@ -37,8 +37,8 @@ const Demo: React.FC = () => {
             'background-pattern': 'backimg'
           }}
         />
+        <FCPolygon />
       </LoadImage>
-      <FCPolygon />
     </Map>
   )
 }
