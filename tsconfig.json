@@ -12,7 +12,6 @@
       "@@/*": ["src/.umi/*"],
       "react-mapbox-ts": ["react-mapbox-ts/src"]
     },
-    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "emitDecoratorMetadata": true,
@@ -24,5 +23,5 @@
     "suppressImplicitAnyIndexErrors": true,
     "strict": false
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "scripts"]
 }

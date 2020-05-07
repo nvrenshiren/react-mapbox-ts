@@ -259,13 +259,15 @@ export default {
         name: '点拖动',
         key: 'draggablePoint',
         code: raw('../demos/raws/demos.interaction.draggablePoint.raw'),
-        des: 'Customize camera animations using AnimationOptions.'
+        des: 'Customize camera animations using AnimationOptions.',
+        sanbox: 'https://codesandbox.io/s/keyidongdeicon-3m2r2'
       },
       {
         name: '过滤标识',
         key: 'filterSymbols',
         code: raw('../demos/raws/demos.interaction.filterSymbols.raw'),
-        des: 'Customize camera animations using AnimationOptions.'
+        des: 'Customize camera animations using AnimationOptions.',
+        sanbox: 'https://codesandbox.io/s/guolutuceng-h22zl'
       },
       {
         name: '功能开关',

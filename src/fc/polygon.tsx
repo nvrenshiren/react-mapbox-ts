@@ -34,6 +34,9 @@ const FCPolygon: React.FC = () => {
 
   let hoverItem = useRef<any>().current
   let clickItem = useRef<any>().current
+  let prevZoom = useRef<number>(map.getZoom()).current
+  let zoomType = useRef<string>().current
+  let isDo = useRef(false).current
   const onMouseLeave = useCallback((e: mapboxgl.MapLayerMouseEvent) => {
     if (hoverItem !== null) {
       map.setFeatureState(
@@ -57,6 +60,7 @@ const FCPolygon: React.FC = () => {
   }, [])
   const onClick = useCallback((e: mapboxgl.MapLayerMouseEvent) => {
     if (e.features.length > 0) {
+      clickItem = e.features[0].id
       const district = fcBounds.districtList.find(
         (item) => item.name === e.features[0].properties.name
       )
@@ -71,14 +75,27 @@ const FCPolygon: React.FC = () => {
   useEffect(() => {
     map.on('zoomend', () => {
       if (map.getZoom() < 10) {
-        setLineData([])
-        map.easeTo({
-          zoom: 9,
-          pitch: 0,
-          bearing: 0,
-          center: [115.787221, 28.085669]
-        })
+        if (zoomType === 'small' && !isDo) {
+          isDo = true
+          clickItem = null
+          setLineData([])
+          map.easeTo({
+            zoom: 9,
+            pitch: 0,
+            bearing: 0,
+            center: [115.787221, 28.085669]
+          })
+        }
       }
+    })
+    map.on('zoom', () => {
+      if (prevZoom > map.getZoom()) {
+        zoomType = 'small'
+      } else {
+        isDo = false
+        zoomType = 'big'
+      }
+      prevZoom = map.getZoom()
     })
   }, [])
   return (
