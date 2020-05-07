@@ -8,6 +8,8 @@ import React, {
 } from 'react'
 import { GeoJSONSource, Layer, MapContext, LoadImage } from 'react-mapbox-ts'
 import fcBounds from '@/assets/fc/fc.bounds'
+import allData from '@/assets/china/all.data'
+import fcData from '@/assets/china/fc.data'
 
 const FCPolygon: React.FC = () => {
   const { map } = useContext(MapContext)
@@ -100,6 +102,45 @@ const FCPolygon: React.FC = () => {
   }, [])
   return (
     <>
+      <GeoJSONSource
+        id="polygon-mark"
+        option={{
+          data: {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'MultiPolygon',
+              coordinates: [
+                [
+                  allData.features[0].geometry.coordinates[0][0],
+                  fcData.features[0].geometry.coordinates[0][0]
+                ]
+              ]
+            }
+          }
+        }}
+      >
+        <Layer
+          id="polygon-mark-item"
+          source="polygon-mark"
+          type="fill"
+          paint={{
+            'fill-color': '#000',
+            'fill-opacity': [
+              'interpolate',
+              ['exponential', 0.2],
+              ['zoom'],
+              9,
+              0,
+              10,
+              0.6
+            ],
+            'fill-outline-color': 'rgba(0,0,0,0)',
+            'fill-translate': [-5, -5]
+          }}
+          before="area-box"
+        />
+      </GeoJSONSource>
       {!!lineData.length && (
         <GeoJSONSource
           id="high-line-data"
@@ -121,8 +162,7 @@ const FCPolygon: React.FC = () => {
             type="line"
             paint={{
               'line-color': '#c9ad00',
-              'line-width': 5,
-              'line-translate-anchor': 'map'
+              'line-width': 5
             }}
             layout={{
               'line-cap': 'round',
