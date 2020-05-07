@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[41],{"5QNf":function(e,n,t){"use strict";t.r(n);var a=t("q1tI"),c=t.n(a),o=t("t9Se"),s=t("DEH5");n["default"]=()=>{Object(a["useRef"])();return c.a.createElement(o["h"],{ref:e=>{window.map=e},accessToken:s["a"].accessToken,style:s["a"].style,center:s["a"].center,zoom:s["a"].zoom})}}}]);
