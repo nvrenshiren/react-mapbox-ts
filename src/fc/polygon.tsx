@@ -11,6 +11,7 @@ import fcBounds from '@/assets/fc/fc.bounds'
 
 const FCPolygon: React.FC = () => {
   const { map } = useContext(MapContext)
+  const [lineData, setLineData] = useState([])
   const polygonData: any = useMemo(() => {
     const FeatureCollection = {
       type: 'FeatureCollection',
@@ -34,9 +35,9 @@ const FCPolygon: React.FC = () => {
   let hoverItem = useRef<any>().current
   let clickItem = useRef<any>().current
   const onMouseLeave = useCallback((e: mapboxgl.MapLayerMouseEvent) => {
-    if (hoverItem) {
+    if (hoverItem !== null) {
       map.setFeatureState(
-        { source: 'Polygon', id: hoverItem },
+        { source: `polygon`, id: hoverItem },
         { hover: false }
       )
     }
@@ -46,48 +47,82 @@ const FCPolygon: React.FC = () => {
     if (e.features.length > 0 && e.features[0].id !== clickItem) {
       if (!!hoverItem) {
         map.setFeatureState(
-          { source: 'Polygon', id: hoverItem },
+          { source: `polygon`, id: hoverItem },
           { hover: false }
         )
       }
-
       hoverItem = e.features[0].id
-      map.setFeatureState({ source: 'Polygon', id: hoverItem }, { hover: true })
+      map.setFeatureState({ source: `polygon`, id: hoverItem }, { hover: true })
     }
   }, [])
   const onClick = useCallback((e: mapboxgl.MapLayerMouseEvent) => {
     if (e.features.length > 0) {
-      if (!!clickItem) {
-        map.setFeatureState(
-          { source: 'Polygon', id: clickItem },
-          { status: false }
-        )
-      }
-      clickItem = e.features[0].id
-      map.setFeatureState(
-        { source: 'Polygon', id: hoverItem },
-        { status: true }
+      const district = fcBounds.districtList.find(
+        (item) => item.name === e.features[0].properties.name
       )
-
+      setLineData(district.boundaries)
       map.flyTo({
         center: JSON.parse(e.features[0].properties.center),
-        zoom: 13,
+        zoom: 14,
         pitch: 60
       })
     }
   }, [])
-
+  useEffect(() => {
+    map.on('zoomend', () => {
+      if (map.getZoom() < 10) {
+        setLineData([])
+        map.easeTo({
+          zoom: 9,
+          pitch: 0,
+          bearing: 0,
+          center: [115.787221, 28.085669]
+        })
+      }
+    })
+  }, [])
   return (
     <>
+      {!!lineData.length && (
+        <GeoJSONSource
+          id="high-line-data"
+          option={{
+            data: {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'LineString',
+                coordinates: lineData
+              }
+            },
+            lineMetrics: true
+          }}
+        >
+          <Layer
+            id="high-line"
+            source="high-line-data"
+            type="line"
+            paint={{
+              'line-color': '#c9ad00',
+              'line-width': 5,
+              'line-translate-anchor': 'map'
+            }}
+            layout={{
+              'line-cap': 'round',
+              'line-join': 'round'
+            }}
+          />
+        </GeoJSONSource>
+      )}
       <GeoJSONSource
-        id="Polygon"
+        id="polygon"
         option={{
           data: polygonData
         }}
       >
         <Layer
-          id="area"
-          source="Polygon"
+          id="area-box"
+          source="polygon"
           type="fill"
           paint={{
             'fill-color': '#bbaa41',
@@ -96,32 +131,19 @@ const FCPolygon: React.FC = () => {
               ['boolean', ['feature-state', 'hover'], false],
               0.8,
               0
-            ]
+            ],
+            'fill-outline-color': '#fff'
           }}
           onClick={onClick}
           onMouseLeave={onMouseLeave}
           onMouseMove={onMouseMove}
         />
         <Layer
-          id="area-border"
-          source="Polygon"
+          id="area-line"
+          source="polygon"
           type="line"
           paint={{
-            'line-color': [
-              'case',
-              ['boolean', ['feature-state', 'status'], false],
-              '#c9ad00',
-              '#fff'
-            ],
-            'line-width': [
-              'interpolate',
-              ['exponential', 0.5],
-              ['zoom'],
-              9,
-              1,
-              13,
-              5
-            ]
+            'line-color': '#fff'
           }}
         />
       </GeoJSONSource>
@@ -156,7 +178,7 @@ const FCPolygon: React.FC = () => {
             paint={{
               'icon-opacity': [
                 'interpolate',
-                ['exponential', 0.5],
+                ['exponential', 0.2],
                 ['zoom'],
                 9,
                 1,
@@ -164,7 +186,7 @@ const FCPolygon: React.FC = () => {
                 0
               ]
             }}
-            before="area"
+            before="area-box"
           />
         </GeoJSONSource>
       </LoadImage>
