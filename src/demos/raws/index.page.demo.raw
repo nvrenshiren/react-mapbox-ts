@@ -60,7 +60,7 @@ const Demo: React.FC = () => {
               1
             ]
           }}
-          before="png2d-img"
+          before="polygon-mark-item"
         />
       </RasterSource>
       <FCPolygon />
