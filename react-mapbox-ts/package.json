@@ -1,6 +1,6 @@
 {
   "name": "react-mapbox-ts",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "Write mapbox with react and typescript",
   "main": "lib/index.js",
   "module": "lib-esm/index.js",
@@ -13,7 +13,7 @@
     "build": "npm run build:lib && npm run build:standalone&&npm run build:esm",
     "pub": "npm publish"
   },
-  "homepage": "https://nvrenshiren.github.io/react-mapbox-ts-site/dist/index.html",
+  "homepage": "http://kvu59h.coding-pages.com/",
   "files": [
     "lib/**/*",
     "lib-esm/**/*"

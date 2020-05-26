@@ -11,6 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateEvents = exports.addEvents = exports.eventsMarker = exports.eventsLayer = exports.eventsMap = void 0;
 exports.eventsMap = {
     onError: 'error',
     onClick: 'click',

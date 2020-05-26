@@ -46,10 +46,5 @@ declare global {
       getMaxPitch: () => number
       updateImage: (name: string, image: ImageRef) => void
     }
-    interface GeoJSONSourceOptions {
-      clusterProperties?: {
-        [key: string]: any
-      }
-    }
   }
 }

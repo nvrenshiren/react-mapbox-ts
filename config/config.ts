@@ -1,6 +1,7 @@
 import { defineConfig } from 'umi'
 
 export default defineConfig({
+  title: 'React-Mapbox-TS',
   alias: {
     'react-mapbox-ts': '@/../react-mapbox-ts/src/index.ts'
   },

@@ -7,6 +7,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getDiffData = exports.diffLngLat = void 0;
 function diffLngLat(prev, current) {
     return !current || !prev || prev === current
         ? false
