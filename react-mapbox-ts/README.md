@@ -1,4 +1,4 @@
-# react-mapbox-ts | [Demos](https://nvrenshiren.github.io/react-mapbox-ts-site/dist/index.html)
+# react-mapbox-ts | [Demos](http://shadowy.gitee.io/react-mapbox-ts/index.html)
 
 Write mapbox with react and typescript
 
